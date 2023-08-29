@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">Заголовок за замовчуванням</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/profile.css}" />
+</head>
+<body>
+<h1>Hello</h1>
+<form action="/logout" method="post">
+    <input type="hidden"  name="_csrf" value="${_csrf.token}">
+    <input type="submit" value="logout">
+</form>
+<a href="/">Homepage</a>
+</body>
+</html>
