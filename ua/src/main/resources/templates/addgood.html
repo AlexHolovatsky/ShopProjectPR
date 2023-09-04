@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SHOP</title>
+    <link rel="stylesheet" th:href="@{/css/register.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body>
+<h1>Add good</h1>
+<a href="/">Main page</a>
+<div class="bg-img">
+    <div class="content">
+        <form th:action="@{/shop/goods/create}" method="post" enctype="multipart/form-data">
+            <div class="field">
+                <span class="fa fa-user"></span>
+                <input type="text" required placeholder="Title" name="title">
+            </div>
+            <div class="field space">
+                <span class="fa fa-lock"></span>
+                <input type="text" class="pass-key" required placeholder="Description" name="description">
+                <span class="show">SHOW</span>
+            </div>
+            <div class="field space">
+                <span class="fa fa-lock"></span>
+                <input type="text" class="pass-key" required placeholder="Price" name="price">
+                <span class="show">SHOW</span>
+            </div>
+            <div class="field space">
+                <span class="fa fa-lock"></span>
+                <input type="file" class="pass-key" name="file1">
+            </div>
+            <div class="field space">
+                <span class="fa fa-lock"></span>
+                <input type="file" class="pass-key" name="file2">
+            </div>
+            <div class="field space">
+                <span class="fa fa-lock"></span>
+                <input type="file" class="pass-key" name="file3">
+            </div>
+
+            <div class="field">
+                <input type="submit" value="ADD">
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</body>
+</html>
