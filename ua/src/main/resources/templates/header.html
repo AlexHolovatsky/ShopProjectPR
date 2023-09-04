@@ -18,7 +18,7 @@
          </nav>
          <div class="user-profile">
 <!--             <img src="Profile_avatar_placeholder_large.png" alt="error">-->
-             <span th:if="${isAuthenticated}" th:text="${user.fullName}"></span>
+             <a href="/userprofile"><span th:if="${isAuthenticated}" th:text="${user.fullName}"></span></a>
              <form action="/logout" method="post">
                 <input type="hidden"  name="_csrf" value="${_csrf.token}">
                 <button class="logout_btn" value="logout" th:if="${isAuthenticated}">Logout</button>

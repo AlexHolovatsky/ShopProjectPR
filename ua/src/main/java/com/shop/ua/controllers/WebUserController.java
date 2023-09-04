@@ -33,9 +33,5 @@ public class WebUserController {
         return "redirect:/login";
     }
 
-    @GetMapping("/userprofile")
-    public String securityUrl(){
-        return "userprofile";
-    }
 
 }
