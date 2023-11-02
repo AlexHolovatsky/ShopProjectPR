@@ -4,6 +4,7 @@
     <title th:text="${title}">Заголовок за замовчуванням</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" th:href="@{/css/profile.css}" />
+<<<<<<< HEAD
     <link rel="stylesheet" th:href="@{/css/header.css}" />
 </head>
 <body>
@@ -11,6 +12,15 @@
 <h1>
     Hello <span th:if="${isAuthenticated}" th:text="${user.email}"></span>
 </h1>
+=======
+</head>
+<body>
+<h1>Hello</h1>
+<form action="/logout" method="post">
+    <input type="hidden"  name="_csrf" value="${_csrf.token}">
+    <input type="submit" value="logout">
+</form>
+>>>>>>> ae0ff7fbc5f0f517a744a7e06d1d69902f14f0d6
 <a href="/">Homepage</a>
 </body>
 </html>
