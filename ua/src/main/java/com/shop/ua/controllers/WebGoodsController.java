@@ -1,15 +1,10 @@
 package com.shop.ua.controllers;
 
-import com.shop.ua.models.Cart;
+import com.shop.ua.component.RepositoryManager;
 import com.shop.ua.models.Goods;
 import com.shop.ua.models.User;
-import com.shop.ua.repositories.CartRepository;
-import com.shop.ua.repositories.GoodsRepository;
-import com.shop.ua.repositories.UserRepository;
-import com.shop.ua.services.GoodsService;
 import lombok.RequiredArgsConstructor;
-import org.dom4j.rule.Mode;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,10 +20,8 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class WebGoodsController {
-    private final GoodsService goodsService;
-    private final GoodsRepository goodsRepository;
-    private final CartRepository cartRepository;
-    private final UserRepository userRepository;
+    @Autowired
+    private RepositoryManager repositoryManager;
 
 
 //    @GetMapping("/shop")
@@ -39,14 +32,14 @@ public class WebGoodsController {
 
     @GetMapping("/shop")
     public String approvedGoods(Model model) {
-        List<Goods> approvedGoods = goodsService.listApprovedGoods();
+        List<Goods> approvedGoods = repositoryManager.getGoodsService().listApprovedGoods();
         model.addAttribute("approvedGoods", approvedGoods);
         return "shoppage";
     }
 
     @GetMapping("/shop/goods/{id}")
     public String goodsInfo(@PathVariable Long id, Model model){
-        Goods goods = goodsService.getGoodsById(id);
+        Goods goods = repositoryManager.getGoodsService().getGoodsById(id);
         model.addAttribute("goods", goods);
         model.addAttribute("images", goods.getImages());
         return "goods-info";
@@ -57,13 +50,13 @@ public class WebGoodsController {
     public String createGoods(@RequestParam("file1") MultipartFile file1,
                               @RequestParam("file2") MultipartFile file2,
                               @RequestParam("file3") MultipartFile file3, Goods goods) throws IOException {
-        goodsService.saveGoods(goods, file1, file2, file3);
+        repositoryManager.getGoodsService().saveGoods(goods, file1, file2, file3);
         return "redirect:/shop";
     }
 
     @PostMapping("/shop/goods/delete/{id}")
     public String deleteGoods(@PathVariable Long id){
-        goodsService.deleteGoods(id);
+        repositoryManager.getGoodsService().deleteGoods(id);
         return "redirect:/shop";
     }
 
@@ -74,7 +67,7 @@ public class WebGoodsController {
 
     @GetMapping("/shop/product/{id}")
     public String getProductDetails(@PathVariable Long id, Model model, Authentication authentication) {
-        Goods product = goodsRepository.findById(id).orElse(null);
+        Goods product = repositoryManager.getGoodsRepository().findById(id).orElse(null);
         User user = null;
 
         model.addAttribute("title", "Details");
@@ -82,7 +75,7 @@ public class WebGoodsController {
         if (authentication != null && authentication.isAuthenticated()) {
             model.addAttribute("isAuthenticated", true);
             String userEmail = authentication.getName();
-            user = userRepository.findByEmail(userEmail);
+            user = repositoryManager.getUserRepository().findByEmail(userEmail);
         }
 
         if (product != null) {

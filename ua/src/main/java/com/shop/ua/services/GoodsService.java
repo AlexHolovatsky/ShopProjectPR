@@ -1,9 +1,7 @@
 package com.shop.ua.services;
 
-import com.shop.ua.enums.Role;
 import com.shop.ua.models.Goods;
 import com.shop.ua.models.Image;
-import com.shop.ua.models.User;
 import com.shop.ua.repositories.GoodsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +14,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class GoodsService {
+public class GoodsService{
     private final GoodsRepository goodsRepository;
 
     public List<Goods> listGoods(String title){

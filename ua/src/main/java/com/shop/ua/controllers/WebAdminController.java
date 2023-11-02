@@ -1,9 +1,9 @@
 package com.shop.ua.controllers;
 
+import com.shop.ua.component.RepositoryManager;
 import com.shop.ua.models.Goods;
-import com.shop.ua.services.GoodsService;
-import com.shop.ua.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,51 +17,51 @@ import java.util.List;
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class WebAdminController {
-    private final UserService userService;
-    private final GoodsService goodsService;
+    @Autowired
+    private RepositoryManager repositoryManager;
 
     @GetMapping("/admin")
     public String admin(Model model){
-        List<Goods> unapprovedGoods = goodsService.listUnapprovedGoods();
+        List<Goods> unapprovedGoods = repositoryManager.getGoodsService().listUnapprovedGoods();
         model.addAttribute("unapprovedGoods", unapprovedGoods);
-        model.addAttribute("users", userService.list());
+        model.addAttribute("users", repositoryManager.getUserService().list());
         return "admin";
     }
 
 
     @PostMapping("/admin/user/ban/{id}")
     public String bannedUser(@PathVariable("id") Long id){
-        userService.banUser(id);
+        repositoryManager.getUserService().banUser(id);
         return "redirect:/admin";
     }
 
     @PostMapping("/admin/user/unban/{id}")
     public String unbannedUser(@PathVariable("id") Long id){
-        userService.unbanUser(id);
+        repositoryManager.getUserService().unbanUser(id);
         return "redirect:/admin";
     }
 
     @PostMapping("/admin/user/op/{id}")
     public String oppUser(@PathVariable("id") Long id){
-        userService.assignAdminRole(id);
+        repositoryManager.getUserService().assignAdminRole(id);
         return "redirect:/admin";
     }
 
     @PostMapping("/admin/user/unop/{id}")
     public String unoppUser(@PathVariable("id") Long id){
-        userService.removeAdminRole(id);
+        repositoryManager.getUserService().removeAdminRole(id);
         return "redirect:/admin";
     }
 
     @PostMapping("/admin/goods/approve/{id}")
     public String approveGoods(@PathVariable("id") Long id) {
-        goodsService.approveGoods(id);
+        repositoryManager.getGoodsService().approveGoods(id);
         return "redirect:/admin";
     }
 
     @PostMapping("/admin/goods/reject/{id}")
     public String rejectGoods(@PathVariable("id") Long id) {
-        goodsService.rejectProduct(id);
+        repositoryManager.getGoodsService().rejectProduct(id);
         return "redirect:/admin";
     }
 
