@@ -12,6 +12,7 @@ public class RepositoryManager {
     private UserRepository userRepository;
     @Autowired
     private GoodsRepository goodsRepository;
+    // Without implements repository
     @Autowired
     private CartRepository cartRepository;
     @Autowired
@@ -25,9 +26,12 @@ public class RepositoryManager {
         return userRepository;
     }
 
+
     public GoodsRepository getGoodsRepository() {
         return goodsRepository;
     }
+
+    //impl repository
 
     public CartRepository getCartRepository() {
         return cartRepository;

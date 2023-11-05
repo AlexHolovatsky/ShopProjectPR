@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,6 +34,16 @@ public class WebUserController {
             return "register";
         }
         return "redirect:/login";
+    }
+
+    @GetMapping("/confirm-email")
+    public String confirmEmail(@RequestParam("token") String token, Model model) {
+        if (repositoryManager.getUserService().confirmEmail(token)) {
+            model.addAttribute("message", "Ваша адреса електронної пошти була успішно підтверджена!");
+        } else {
+            model.addAttribute("message", "Не вдалося підтвердити вашу адресу електронної пошти. Будь ласка, перевірте посилання або зверніться до служби підтримки.");
+        }
+        return "email-verification-result";
     }
 
 }

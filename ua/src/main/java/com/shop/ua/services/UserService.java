@@ -19,6 +19,8 @@ import static com.shop.ua.enums.Role.*;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+    private final TokenService tokenService;
 
     public boolean createUser (User user){
         String email = user.getEmail();
@@ -26,9 +28,28 @@ public class UserService {
         user.setActive(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.getRoles().add(Role.ROLE_USER);
+
+        String verificationToken = tokenService.generateToken();
+        tokenService.saveTokenToUser(user, verificationToken);
+
         log.info("Saving new User with email: {}", email);
         userRepository.save(user);
+
+        emailService.sendConfirmationEmail(email, verificationToken);
+
         return true;
+    }
+
+    public boolean confirmEmail(String token) {
+        User user = userRepository.findByEmailVerificationToken(token);
+        if (user != null) {
+            user.setEmailVerified(true);
+            user.setEmailVerificationToken(null);
+            userRepository.save(user);
+            log.info("Email verification successful for user with email: {}", user.getEmail());
+            return true;
+        }
+        return false;
     }
 
     public List<User> list(){

@@ -29,6 +29,10 @@ public class User implements UserDetails {
     private boolean active;
     @Column(name = "password", length = 1000)
     private String password;
+    @Column(name = "email_verified")
+    private boolean emailVerified;
+    @Column(name = "emailVerificationToken")
+    private String emailVerificationToken;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",
@@ -77,4 +81,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return active;
     }
+
 }
