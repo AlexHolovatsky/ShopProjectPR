@@ -40,10 +40,16 @@ public class WebUserController {
     public String confirmEmail(@RequestParam("token") String token, Model model) {
         if (repositoryManager.getUserService().confirmEmail(token)) {
             model.addAttribute("message", "Ваша адреса електронної пошти була успішно підтверджена!");
+            return "redirect:/login"; // Перенаправлення на сторінку входу після успішного підтвердження
         } else {
             model.addAttribute("message", "Не вдалося підтвердити вашу адресу електронної пошти. Будь ласка, перевірте посилання або зверніться до служби підтримки.");
         }
         return "email-verification-result";
+    }
+
+    @GetMapping("/verify-email")
+    public String showEmailVerificationPage() {
+        return "verify-email";
     }
 
 }

@@ -23,13 +23,6 @@ public class WebGoodsController {
     @Autowired
     private RepositoryManager repositoryManager;
 
-
-//    @GetMapping("/shop")
-//    public String goods(@RequestParam(name = "title", required = false) String title, Model model){
-//        model.addAttribute("goods", goodsService.listGoods(title));
-//        return "shoppage";
-//    }
-
     @GetMapping("/shop")
     public String approvedGoods(Model model) {
         List<Goods> approvedGoods = repositoryManager.getGoodsService().listApprovedGoods();
@@ -87,9 +80,5 @@ public class WebGoodsController {
         }
     }
 
-//    @GetMapping("/shop/productdetails/cart")
-//    public String addCart() {
-//        return "cart";
-//    }
 
 }

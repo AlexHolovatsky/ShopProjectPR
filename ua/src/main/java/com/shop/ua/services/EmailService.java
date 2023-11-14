@@ -17,6 +17,9 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String mailFrom;
 
+    @Autowired
+    private TokenService tokenService;
+
     public void sendEmail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(mailFrom);
@@ -26,9 +29,14 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void sendConfirmationEmail(String to, String confirmationToken) {
+    public void sendConfirmationEmail(String to, String token) {
+        String confirmationLink = "http://localhost:8080/confirm-email?token=" + token;
+
         String subject = "Підтвердження реєстрації";
-        String text = "Будь ласка, підтвердіть свою адресу електронної пошти, перейшовши за посиланням: " + confirmationToken;
+        String text = "Будь ласка, підтвердіть свою адресу електронної пошти, перейшовши за посиланням: " + confirmationLink;
+
+        // токен у базі даних
+
         sendEmail(to, subject, text);
     }
 

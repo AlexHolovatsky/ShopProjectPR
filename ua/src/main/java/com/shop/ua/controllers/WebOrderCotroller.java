@@ -19,7 +19,6 @@ public class WebOrderCotroller {
 
     @GetMapping("/order")
     public String cart(Model model, Authentication authentication) {
-//        String userEmail = authentication.getName();
         String currentUsername = (authentication != null) ? authentication.getName() : null;
         User user = repositoryManager.getUserRepository().findByEmail(currentUsername);
         if (authentication != null && authentication.isAuthenticated()) {

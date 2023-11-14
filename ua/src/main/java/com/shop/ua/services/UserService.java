@@ -5,22 +5,27 @@ import com.shop.ua.models.User;
 import com.shop.ua.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
-import static com.shop.ua.enums.Role.*;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final TokenService tokenService;
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
     public boolean createUser (User user){
         String email = user.getEmail();
@@ -95,5 +100,15 @@ public class UserService {
             log.info("ROLE_ADMIN role has been removed from user with id: {}", user.getId());
         }
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("Користувача не знайдено з електронною поштою: " + email);
+        }
+        return user;
+    }
+
 
 }
