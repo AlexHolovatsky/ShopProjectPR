@@ -1,5 +1,6 @@
 package com.shop.ua.configurations;
 
+import com.shop.ua.component.RepositoryManager;
 import com.shop.ua.services.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private RepositoryManager repositoryManager;
     @Autowired
     private EmailTestConfig emailTestConfig;
 
@@ -51,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
+        auth.userDetailsService(repositoryManager.getCustomUserDetailsService())
                 .passwordEncoder(passwordEncoder());
     }
 

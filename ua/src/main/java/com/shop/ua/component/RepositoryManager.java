@@ -1,7 +1,6 @@
 package com.shop.ua.component;
 
-import com.shop.ua.services.GoodsService;
-import com.shop.ua.services.UserService;
+import com.shop.ua.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.shop.ua.repositories.*;
 import org.springframework.stereotype.Component;
@@ -21,6 +20,12 @@ public class RepositoryManager {
     private GoodsService goodsService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private TokenService tokenService;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     public UserRepository getUserRepository() {
         return userRepository;
@@ -48,4 +53,17 @@ public class RepositoryManager {
     public UserService getUserService() {
         return userService;
     }
+
+    public TokenService getTokenService() {
+        return tokenService;
+    }
+
+    public EmailService getEmailService() {
+        return emailService;
+    }
+
+    public CustomUserDetailsService getCustomUserDetailsService() {
+        return customUserDetailsService;
+    }
+
 }

@@ -1,7 +1,7 @@
 package com.shop.ua.configurations;
 
+import com.shop.ua.component.RepositoryManager;
 import com.shop.ua.models.User;
-import com.shop.ua.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,7 +24,7 @@ import java.io.IOException;
 public class EmailTestConfig extends AbstractAuthenticationProcessingFilter {
 
     @Autowired
-    private UserService userService;
+    private RepositoryManager repositoryManager;
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -32,7 +32,7 @@ public class EmailTestConfig extends AbstractAuthenticationProcessingFilter {
         super(new AntPathRequestMatcher("/login", "POST"));
         setAuthenticationManager(authentication -> {
             String email = (String) authentication.getPrincipal();
-            UserDetails userDetails = userService.loadUserByUsername(email);
+            UserDetails userDetails = repositoryManager.getUserService().loadUserByUsername(email);
             return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         });
     }
@@ -57,7 +57,7 @@ public class EmailTestConfig extends AbstractAuthenticationProcessingFilter {
         if (authResult.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authResult.getPrincipal();
             String email = userDetails.getUsername();
-            User user = userService.findByEmail(email);
+            User user = repositoryManager.getUserService().findByEmail(email);
 
             if (user != null && !user.isEmailVerified()) {
                 redirectStrategy.sendRedirect(request, response, "/verify-email");
