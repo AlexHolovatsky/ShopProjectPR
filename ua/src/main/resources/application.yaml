@@ -30,3 +30,5 @@ spring:
     enabled: 'true'
     prefix: classpath:/templates/
     suffix: .html
+logging:
+  config: classpath:logback.xml

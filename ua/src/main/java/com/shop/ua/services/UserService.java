@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -19,8 +21,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final PasswordEncoder passwordEncoder;
-
     @Autowired
     private RepositoryManager repositoryManager;
 
@@ -38,7 +40,7 @@ public class UserService implements UserDetailsService {
         String verificationToken = repositoryManager.getTokenService().generateToken();
         repositoryManager.getTokenService().saveTokenToUser(user, verificationToken);
 
-        log.info("Saving new User with email: {}", email);
+        logger.info("Saving new User with email: {}", email);
         repositoryManager.getUserRepository().save(user);
 
         repositoryManager.getEmailService().sendConfirmationEmail(email, verificationToken);
@@ -52,7 +54,7 @@ public class UserService implements UserDetailsService {
             user.setEmailVerified(true);
             user.setEmailVerificationToken(null);
             repositoryManager.getUserRepository().save(user);
-            log.info("Email verification successful for user with email: {}", user.getEmail());
+            logger.info("Email verification successful for user with email: {}", user.getEmail());
             return true;
         }
         return false;
@@ -66,7 +68,7 @@ public class UserService implements UserDetailsService {
         User user = repositoryManager.getUserRepository().findById(id).orElse(null);
         if (user != null){
             user.setActive(false);
-            log.info("User with id: {} has banned", user.getId(), user.getEmail());
+            logger.info("User with id: {} has banned", user.getId(), user.getEmail());
         }
         repositoryManager.getUserRepository().save(user);
 
@@ -76,7 +78,7 @@ public class UserService implements UserDetailsService {
         User user = repositoryManager.getUserRepository().findById(id).orElse(null);
         if (user != null){
             user.setActive(true);
-            log.info("User with id: {} has unbanned", user.getId(), user.getEmail());
+            logger.info("User with id: {} has unbanned", user.getId(), user.getEmail());
         }
         repositoryManager.getUserRepository().save(user);
 
@@ -88,7 +90,7 @@ public class UserService implements UserDetailsService {
             user.getRoles().remove(Role.ROLE_USER);
             user.getRoles().add(Role.ROLE_ADMIN);
             repositoryManager.getUserRepository().save(user);
-            log.info("User with id: {} has been assigned the ROLE_ADMIN role", user.getId());
+            logger.info("User with id: {} has been assigned the ROLE_ADMIN role", user.getId());
         }
     }
 
@@ -98,7 +100,7 @@ public class UserService implements UserDetailsService {
             user.getRoles().remove(Role.ROLE_ADMIN);
             user.getRoles().add(Role.ROLE_USER);
             repositoryManager.getUserRepository().save(user);
-            log.info("ROLE_ADMIN role has been removed from user with id: {}", user.getId());
+            logger.info("ROLE_ADMIN role has been removed from user with id: {}", user.getId());
         }
     }
 
