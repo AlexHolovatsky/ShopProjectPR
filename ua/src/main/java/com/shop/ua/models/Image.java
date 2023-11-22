@@ -27,10 +27,21 @@ public class Image {
     private String contentType;
     @Column(name = "isPreviewImage")
     private boolean isPreviewImage;
-    @Lob
-    @Column(name = "bytes", columnDefinition = "varbinary(max)")
-    private byte[] bytes;
+    @Column(name = "imagePath")
+    private String imagePath;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     private Goods goods;
+
+    public Image(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 }

@@ -3,6 +3,9 @@ package com.shop.ua.configurations;
 import com.shop.ua.component.RepositoryManager;
 import com.shop.ua.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -65,6 +68,8 @@ public class EmailTestConfig extends AbstractAuthenticationProcessingFilter {
                 redirectStrategy.sendRedirect(request, response, "/");
             }
         }
+
+
     }
 
 }

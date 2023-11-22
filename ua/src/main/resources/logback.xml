@@ -9,7 +9,11 @@
 
     <logger name="com.example" level="DEBUG"/>
 
-    <logger name="com.shop.ua.services.UserService" level="DEBUG" />
+<!--    <logger name="com.shop.ua.services.UserService" level="DEBUG" />-->
+
+    <logger name="com.shop.ua.controllers.WebImageController" level="DEBUG" />
+
+    <logger name="com.shop.ua.services.GoodsService" level="DEBUG" />
 
     <logger name="org.springframework" level="INFO"/>
 

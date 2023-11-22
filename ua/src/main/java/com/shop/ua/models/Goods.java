@@ -28,13 +28,14 @@ public class Goods {
     private int price;
     @Column(name = "approved")
     private boolean approved;
+    @Column(name = "previewImageId")
+    private Long previewImageId;
 
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "goods")
 //    private List<Image> images = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "goods")
     private List<Image> images = new ArrayList<>();
 
-    private Long previewImageId;
     private LocalDateTime dateOfCreate;
 
     @PrePersist
@@ -45,5 +46,6 @@ public class Goods {
     public void addImageToGoods(Image image){
         image.setGoods(this);
         images.add(image);
+        this.previewImageId = image.getId();
     }
 }

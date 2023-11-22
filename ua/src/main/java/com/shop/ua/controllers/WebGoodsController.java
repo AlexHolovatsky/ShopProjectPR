@@ -2,6 +2,7 @@ package com.shop.ua.controllers;
 
 import com.shop.ua.component.RepositoryManager;
 import com.shop.ua.models.Goods;
+import com.shop.ua.models.Image;
 import com.shop.ua.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.apache.commons.io.FilenameUtils;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
+import java.io.File;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,7 +39,7 @@ public class WebGoodsController {
         Goods goods = repositoryManager.getGoodsService().getGoodsById(id);
         model.addAttribute("goods", goods);
         model.addAttribute("images", goods.getImages());
-        return "goods-info";
+        return "productdetails";
     }
 
 
@@ -43,6 +47,7 @@ public class WebGoodsController {
     public String createGoods(@RequestParam("file1") MultipartFile file1,
                               @RequestParam("file2") MultipartFile file2,
                               @RequestParam("file3") MultipartFile file3, Goods goods) throws IOException {
+        // Змініть цей код для збереження шляхів у базі даних
         repositoryManager.getGoodsService().saveGoods(goods, file1, file2, file3);
         return "redirect:/shop";
     }

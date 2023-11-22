@@ -28,7 +28,7 @@
     <main>
         <div th:each="product : ${approvedGoods}" class="product">
             <a th:href="@{/shop/product/__${product.id}__}">
-                <img th:src="@{'/image/' + ${product.previewImageId}}" alt="Product Image">
+                <img th:src="@{'/images/' + ${product.previewImageId}}" alt="Product Image">
                 <h2 th:text="${product.title}">Товар</h2>
                 <p th:text="${product.description}">Опис</p>
             </a>
@@ -36,5 +36,25 @@
     </main>
 
 </div>
+
+<!--<div th:each="goods : ${approvedGoods}">-->
+<!--    <div>-->
+<!--        <h2 th:text="${goods.title}"></h2>-->
+<!--        <p th:text="${goods.description}"></p>-->
+<!--        <p th:text="${'Price: $' + goods.price}"></p>-->
+
+<!--        &lt;!&ndash; Перевірте, чи у товару є зображення &ndash;&gt;-->
+<!--        <div th:if="${goods.images.size() > 0}">-->
+<!--            &lt;!&ndash; Перша картинка використовується як ескіз (preview) &ndash;&gt;-->
+<!--            <img th:src="@{'/images/' + ${goods.previewImageId}}" alt="Preview Image">-->
+
+<!--            &lt;!&ndash; Показати інші зображення товару &ndash;&gt;-->
+<!--            <div th:each="image : ${goods.images}" th:unless="${image.isPreviewImage}">-->
+<!--                <img th:src="@{'/images/' + ${image.id}}" alt="Product Image">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
 </body>
 </html>
