@@ -18,11 +18,10 @@
                 <img class="main-photo-img" th:src="@{'/images/' + ${product.previewImageId}}" alt="Product Image">
             </div>
             <div class="small-photos">
-                <img class="sub-photo-img" th:src="@{'/images/' + ${product.previewImageId}}" alt="Product Image">
-                <img class="sub-photo-img" th:src="@{'/images/' + ${product.previewImageId}}" alt="Product Image">
-                <img class="sub-photo-img" th:src="@{'/images/' + ${product.previewImageId}}" alt="Product Image">
+                <div th:each="image : ${product.images}">
+                    <img class="sub-photo-img" th:src="@{'/images/' + ${image.id}}" alt="Product Image">
+                </div>
             </div>
-        </div>
         <div class="product-details">
             <h1 th:text="${product.title}">Назва товару</h1>
             <p th:text="${product.price}">$Price</p>
@@ -34,7 +33,9 @@
                 <p th:text="${user.email}"></p>
             </form>
         </div>
+
     </main>
+
 </div>
 
 </body>

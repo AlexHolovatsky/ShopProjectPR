@@ -44,11 +44,8 @@ public class WebGoodsController {
 
 
     @PostMapping("/shop/goods/create")
-    public String createGoods(@RequestParam("file1") MultipartFile file1,
-                              @RequestParam("file2") MultipartFile file2,
-                              @RequestParam("file3") MultipartFile file3, Goods goods) throws IOException {
-        // Змініть цей код для збереження шляхів у базі даних
-        repositoryManager.getGoodsService().saveGoods(goods, file1, file2, file3);
+    public String createGoods(@RequestParam("files") MultipartFile[] files, Goods goods) throws IOException {
+        repositoryManager.getGoodsService().saveGoods(goods, files);
         return "redirect:/shop";
     }
 

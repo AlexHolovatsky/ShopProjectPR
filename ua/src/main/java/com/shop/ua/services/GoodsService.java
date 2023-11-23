@@ -55,27 +55,20 @@ public class GoodsService{
         return filePath;
     }
 
-    public void saveGoods(Goods goods, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException {
-        // Змініть наступний код згідно з вашими потребами
-        if (file1.getSize() != 0) {
-            Image image1 = toImageEntity(file1);
-            image1.setPreviewImage(true);
-            goods.addImageToGoods(image1);
-        }
-        if (file2.getSize() != 0) {
-            Image image2 = toImageEntity(file2);
-            goods.addImageToGoods(image2);
-        }
-        if (file3.getSize() != 0) {
-            Image image3 = toImageEntity(file3);
-            goods.addImageToGoods(image3);
+    public void saveGoods(Goods goods, MultipartFile[] files) throws IOException {
+        if (files != null && files.length > 0) {
+            for (MultipartFile file : files) {
+                if (file.getSize() != 0) {
+                    Image image = toImageEntity(file);
+                    goods.addImageToGoods(image);
+                }
+            }
         }
 
         logger.info("Saved new Good. Title: {}; Price: {}", goods.getTitle(), goods.getPrice());
         goods.setApproved(false);
         Goods goodsFromDb = goodsRepository.save(goods);
 
-        // Змінити код для отримання шляху збереження в файловій системі та збереження шляху в базі даних
         if (!goodsFromDb.getImages().isEmpty()) {
             goodsFromDb.setPreviewImageId(goodsFromDb.getImages().get(0).getId());
             goodsRepository.save(goodsFromDb);
