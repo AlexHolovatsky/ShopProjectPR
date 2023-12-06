@@ -32,3 +32,5 @@ spring:
     suffix: .html
 logging:
   config: classpath:logback.xml
+  level:
+    org.springframework.web: DEBUG

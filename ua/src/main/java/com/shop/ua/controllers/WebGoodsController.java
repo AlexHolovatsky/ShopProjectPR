@@ -28,10 +28,19 @@ public class WebGoodsController {
     private RepositoryManager repositoryManager;
 
     @GetMapping("/shop")
-    public String approvedGoods(Model model) {
-        List<Goods> approvedGoods = repositoryManager.getGoodsService().listApprovedGoods();
-        model.addAttribute("approvedGoods", approvedGoods);
-        return "shoppage";
+    public String approvedGoods(Model model, @RequestParam(name = "search", required = false) String search) {
+        List<Goods> searchResults;
+
+        if (search != null && !search.isEmpty()) {
+            searchResults = repositoryManager.getGoodsService().searchGoodsByKeyword(search);
+        } else {
+            searchResults = repositoryManager.getGoodsService().listApprovedGoods();
+        }
+
+        model.addAttribute("searchResults", searchResults);
+        model.addAttribute("search", search);
+
+        return "TestNewDesign";
     }
 
     @GetMapping("/shop/goods/{id}")
@@ -46,13 +55,15 @@ public class WebGoodsController {
     @PostMapping("/shop/goods/create")
     public String createGoods(@RequestParam("files") MultipartFile[] files, Goods goods) throws IOException {
         repositoryManager.getGoodsService().saveGoods(goods, files);
-        return "redirect:/shop";
+//        return "redirect:/shop";
+        return "redirect:/TestNewDesign";
     }
 
     @PostMapping("/shop/goods/delete/{id}")
     public String deleteGoods(@PathVariable Long id){
         repositoryManager.getGoodsService().deleteGoods(id);
-        return "redirect:/shop";
+//        return "redirect:/shop";
+        return "redirect:/TestNewDesign";
     }
 
     @GetMapping("/shop/addgood")
@@ -80,6 +91,13 @@ public class WebGoodsController {
         } else {
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/search")
+    public String searchGoods(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
+        List<Goods> searchResults = repositoryManager.getGoodsService().searchGoodsByKeyword(keyword);
+        model.addAttribute("searchResults", searchResults);
+        return "GoodsResult"; // Назва шаблону Thymeleaf для відображення результатів пошуку
     }
 
 

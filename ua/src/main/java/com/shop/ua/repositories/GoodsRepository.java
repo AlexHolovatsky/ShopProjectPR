@@ -13,4 +13,6 @@ public interface GoodsRepository extends JpaRepository<Goods, Long> {
     List<Goods> findByTitle(String title);
 
     List<Goods> findByApproved(boolean approved);
+    List<Goods> findByTitleContaining(String keyword);
+    List<Goods> findByDescriptionContaining(String keyword);
 }

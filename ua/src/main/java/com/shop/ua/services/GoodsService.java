@@ -14,8 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import java.io.File;
 
@@ -33,6 +32,18 @@ public class GoodsService{
     public List<Goods> listGoods(String title){
         if (title != null) return goodsRepository.findByTitle(title);
         return goodsRepository.findAll();
+    }
+
+    public List<Goods> searchGoodsByKeyword(String keyword) {
+        // Додайте новий метод для пошуку за назвою та описом
+        List<Goods> byTitle = goodsRepository.findByTitleContaining(keyword);
+        List<Goods> byDescription = goodsRepository.findByDescriptionContaining(keyword);
+
+        // Об'єднайте результати двох запитів і поверніть унікальні товари
+        Set<Goods> uniqueResults = new HashSet<>(byTitle);
+        uniqueResults.addAll(byDescription);
+
+        return new ArrayList<>(uniqueResults);
     }
 
     public List<Goods> listUnapprovedGoods() {
