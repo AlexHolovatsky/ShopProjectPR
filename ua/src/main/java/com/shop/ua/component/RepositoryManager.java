@@ -26,9 +26,17 @@ public class RepositoryManager {
     private EmailService emailService;
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+    @Autowired
+    private StoreRepository storeRepository;
+    @Autowired
+    private StoreService storeService;
 
     public UserRepository getUserRepository() {
         return userRepository;
+    }
+
+    public StoreRepository getStoreRepository() {
+        return storeRepository;
     }
 
 
@@ -64,6 +72,10 @@ public class RepositoryManager {
 
     public CustomUserDetailsService getCustomUserDetailsService() {
         return customUserDetailsService;
+    }
+
+    public StoreService getStoreService() {
+        return storeService;
     }
 
 }

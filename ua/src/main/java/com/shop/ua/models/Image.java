@@ -1,5 +1,7 @@
 package com.shop.ua.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +32,9 @@ public class Image {
     @Column(name = "imagePath")
     private String imagePath;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "goods_id")
+    @JsonManagedReference
     private Goods goods;
 
     public Image(String imagePath) {

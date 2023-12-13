@@ -1,5 +1,6 @@
 package com.shop.ua.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.shop.ua.enums.Role;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,6 +42,10 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
     private LocalDateTime dateOfCreated;
 
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Store store;
+
     @PrePersist
     private void init() {
         dateOfCreated = LocalDateTime.now();
@@ -80,6 +85,11 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return active;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : super.hashCode();
     }
 
 }

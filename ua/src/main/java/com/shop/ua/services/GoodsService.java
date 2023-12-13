@@ -67,6 +67,9 @@ public class GoodsService{
     }
 
     public void saveGoods(Goods goods, MultipartFile[] files) throws IOException {
+        if (!goods.isPersonal() && (goods.getStore() == null || goods.getStore().getId() == null)) {
+            throw new RuntimeException("Користувач повинен мати магазин для створення товарів з isPersonal = false");
+        }
         if (files != null && files.length > 0) {
             for (MultipartFile file : files) {
                 if (file.getSize() != 0) {

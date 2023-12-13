@@ -35,7 +35,16 @@
             <img id="profile-photo" th:src="@{/images/sections/profile.png}" alt="Profile Photo">
         </a>
         <a href="profile.html">
-            <span id="profile-name">Ваш профіль</span>
+            <div class="profile-dropdown" id="profileDropdown" onmouseleave="hideOnMouseLeave()">
+            <a href="javascript:void(0);" class="profile-link" onmouseover="showProfileMenu()"><span id="profile-name">Ваш профіль</span></a>
+                <div class="dropdown-content" id="profileMenu" onmouseleave="hideOnMouseLeave()">
+                    <a href="#">Ім'я користувача</a>
+                    <a href="#">Оголошення</a>
+                    <a href="#">Повідомлення</a>
+                    <a href="#">Налаштування</a>
+                    <a href="#">Вихід</a>
+                </div>
+            </div>
         </a>
     </div>
     <button id="add-ad-button">Додати оголошення</button>
@@ -97,4 +106,20 @@
     </div>
 </div>
 </body>
+<!-- Додайте цей JavaScript, якщо ви не використовуєте jQuery -->
+<script>
+    function showProfileMenu() {
+        document.getElementById("profileMenu").style.display = "block";
+    }
+
+    function hideProfileMenu() {
+        document.getElementById("profileMenu").style.display = "none";
+    }
+
+    // Додана функція для приховання списку при відведенні курсору від елементів списку та самого списку
+    function hideOnMouseLeave() {
+        document.getElementById("profileMenu").style.display = "none";
+    }
+</script>
+
 </html>

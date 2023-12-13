@@ -6,6 +6,8 @@ import com.shop.ua.models.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,7 +37,7 @@ public class UserService implements UserDetailsService {
         if (repositoryManager.getUserRepository().findByEmail(email) != null) return false;
         user.setActive(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.getRoles().add(Role.ROLE_USER);
+        user.getRoles().add(Role.ROLE_ADMIN);
 
         String verificationToken = repositoryManager.getTokenService().generateToken();
         repositoryManager.getTokenService().saveTokenToUser(user, verificationToken);
@@ -111,6 +113,14 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("Користувача не знайдено з електронною поштою: " + email);
         }
         return user;
+    }
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        return (User) authentication.getPrincipal();
     }
 
 

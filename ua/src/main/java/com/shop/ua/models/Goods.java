@@ -1,5 +1,7 @@
 package com.shop.ua.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,8 +32,16 @@ public class Goods {
     private boolean approved;
     @Column(name = "previewImageId")
     private Long previewImageId;
+    @Column(name = "is_personal")
+    private boolean isPersonal;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    @JsonManagedReference
+    private Store store;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "goods")
+    @JsonBackReference
     private List<Image> images = new ArrayList<>();
 
     private LocalDateTime dateOfCreate;
@@ -54,4 +64,8 @@ public class Goods {
             throw new RuntimeException("Досягнуто максимальну кількість фотографій для товару");
         }
     }
+    public void setIsPersonal(boolean isPersonal) {
+        this.isPersonal = isPersonal;
+    }
+
 }

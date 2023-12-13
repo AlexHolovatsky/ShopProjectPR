@@ -3,6 +3,7 @@ package com.shop.ua.controllers;
 import com.shop.ua.component.RepositoryManager;
 import com.shop.ua.models.Goods;
 import com.shop.ua.models.Image;
+import com.shop.ua.models.Store;
 import com.shop.ua.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,18 +53,45 @@ public class WebGoodsController {
     }
 
 
+//    @PostMapping("/shop/goods/create")
+//    public String createGoods(@RequestParam("files") MultipartFile[] files, Goods goods) throws IOException {
+//        repositoryManager.getGoodsService().saveGoods(goods, files);
+//        return "redirect:/TestNewDesign";
+//    }
+
     @PostMapping("/shop/goods/create")
-    public String createGoods(@RequestParam("files") MultipartFile[] files, Goods goods) throws IOException {
+    public String createGoods(@RequestParam("files") MultipartFile[] files,
+                              @RequestParam("productType") String productType,
+                              Goods goods) throws IOException {
+
+        if ("personal".equals(productType)) {
+            goods.setIsPersonal(true);
+        } else if ("store".equals(productType)) {
+            User currentUser = repositoryManager.getUserService().getCurrentUser(); // Метод отримання поточного користувача
+            Store userStore = repositoryManager.getStoreService().getStoreByOwner(currentUser);
+            goods.setIsPersonal(false);
+            goods.setStore(userStore);
+        }else {
+            // Обробка випадку, коли користувача не знайдено
+            // Це може виникнути, якщо користувач не аутентифікований
+            // або якщо метод getCurrentUser повертає null
+            // Обробте цю ситуацію відповідним чином, наприклад, перенаправленням на сторінку помилки
+            return "redirect:/error";
+        }
+
+
+        // Логіка збереження товару та його зображень
         repositoryManager.getGoodsService().saveGoods(goods, files);
-//        return "redirect:/shop";
-        return "redirect:/TestNewDesign";
+
+        return "redirect:/shop";
     }
+
 
     @PostMapping("/shop/goods/delete/{id}")
     public String deleteGoods(@PathVariable Long id){
         repositoryManager.getGoodsService().deleteGoods(id);
-//        return "redirect:/shop";
-        return "redirect:/TestNewDesign";
+        return "redirect:/shop";
+//        return "redirect:/TestNewDesign";
     }
 
     @GetMapping("/shop/addgood")
@@ -97,7 +125,7 @@ public class WebGoodsController {
     public String searchGoods(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
         List<Goods> searchResults = repositoryManager.getGoodsService().searchGoodsByKeyword(keyword);
         model.addAttribute("searchResults", searchResults);
-        return "GoodsResult"; // Назва шаблону Thymeleaf для відображення результатів пошуку
+        return "GoodsResult";
     }
 
 
