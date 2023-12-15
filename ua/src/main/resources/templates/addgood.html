@@ -1,81 +1,249 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>SHOP</title>-->
+<!--    <link rel="stylesheet" th:href="@{/css/goods-add.css}"/>-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>-->
+<!--    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="bg">-->
+<!--    <div class="content">-->
+<!--        <h1>Add goods</h1>-->
+<!--        <form th:action="@{/shop/goods/create}" method="post" enctype="multipart/form-data">-->
+<!--            <div class="field_space">-->
+<!--                <i class='bx bxs-pen'></i>-->
+<!--                <input type="text" required placeholder="Title" name="title">-->
+<!--            </div>-->
+<!--            <div class="field_space">-->
+<!--                <i class='bx bxs-purchase-tag-alt'></i>-->
+<!--                <input type="text" required placeholder="Description" name="description">-->
+
+<!--            </div>-->
+<!--            <div class="field_space">-->
+<!--                <i class='bx bxs-dollar-circle'></i>-->
+<!--                <input type="text" required placeholder="Price" name="price">-->
+<!--            </div>-->
+<!--            <label class="fields_labels">Categories:</label>-->
+<!--            <div class="categories_field">-->
+<!--                <div class="category_member">-->
+<!--                    <input type="checkbox" name="categories" value="1" id="category1" class="category_input">-->
+<!--                    <label for="category1">Electronics</label>-->
+<!--                </div>-->
+<!--                <div class="category_member">-->
+<!--                    <input type="checkbox" name="categories" value="2" id="category2" class="category_input">-->
+<!--                    <label for="category2">Sports and Entertainment</label>-->
+<!--                </div>-->
+<!--                <div class="category_member">-->
+<!--                    <input type="checkbox" name="categories" value="3" id="category3" class="category_input">-->
+<!--                    <label for="category3">Pets</label>-->
+<!--                </div>-->
+<!--                <div class="category_member">-->
+<!--                    <input type="checkbox" name="categories" value="4" id="category4" class="category_input">-->
+<!--                    <label for="category4">Fashion and Style</label>-->
+<!--                </div>-->
+<!--                <div class="category_member">-->
+<!--                    <input type="checkbox" name="categories" value="5" id="category5" class="category_input">-->
+<!--                    <label for="category5">Real Estate</label>-->
+<!--                </div>-->
+<!--                <div class="category_member">-->
+<!--                    <input type="checkbox" name="categories" value="6" id="category6" class="category_input">-->
+<!--                    <label for="category6">Transportation</label>-->
+<!--                </div>-->
+<!--                <div class="category_member">-->
+<!--                    <input type="checkbox" name="categories" value="7" id="category7" class="category_input">-->
+<!--                    <label for="category7">Furniture</label>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <label class="fields_labels" for="productType">Тип товару:</label>-->
+<!--            <div class="productType_field">-->
+<!--                <select name="productType" id="productType">-->
+<!--                    <option value="personal">Особистий</option>-->
+<!--                    <option value="store">Магазин</option>-->
+<!--                </select>-->
+<!--            </div>-->
+
+<!--            <div class="upload-btn-wrapper">-->
+<!--                <div class="pictures_controll__field">-->
+<!--                    <i class='bx bx-plus' onclick="addFileInput()"></i>-->
+<!--                    <i class='bx bx-minus' onclick="removeFileInput()"></i>-->
+<!--                </div>-->
+<!--                <label for="fileInput1" class="btn">Upload a file</label>-->
+<!--                <input type="file" name="files" id="fileInput1" accept="image/*" />-->
+<!--            </div>-->
+
+<!--            <div class="submittion_field">-->
+<!--                <input type="submit" value="Add" id="submit_btn">-->
+<!--                <input type="button" value="Back" onclick="goBack()" id="cancel_btn">-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    var category_fields = document.querySelectorAll('.category_member');-->
+
+<!--    category_fields.forEach(category => {-->
+<!--        category.addEventListener("click", () => {-->
+<!--            var checkbox = category.querySelector('.category_input');-->
+<!--            checkbox.checked = !checkbox.checked;-->
+<!--        });-->
+<!--    });-->
+
+
+<!--    function addFileInput() {-->
+<!--        var fileInputs__arr = document.querySelectorAll('.upload-btn-wrapper input');-->
+<!--        if (fileInputs__arr.length < 9) {-->
+<!--            var wrapper = document.querySelector('.upload-btn-wrapper');-->
+<!--            var newInputNumber = fileInputs__arr.length + 1;-->
+
+<!--            wrapper.innerHTML += `-->
+<!--            <label for="fileInput${newInputNumber}" class="btn">Upload a file</label>-->
+<!--            <input type="file" name="files" id="fileInput${newInputNumber}" accept="image/*" />-->
+<!--        `;-->
+<!--        } else {-->
+<!--            alert('Максимальна кількість фотографій досягнута');-->
+<!--        }-->
+<!--    }-->
+
+<!--    function removeFileInput() {-->
+<!--        var fileInputs__arr = document.querySelectorAll('.upload-btn-wrapper input');-->
+<!--        var wrapper = document.querySelector('.upload-btn-wrapper');-->
+
+<!--        if (fileInputs__arr.length > 1) {-->
+<!--            var lastInputNumber = fileInputs__arr.length;-->
+<!--            var labelToRemove = document.querySelector(`label[for="fileInput${lastInputNumber}"]`);-->
+<!--            var inputToRemove = document.getElementById(`fileInput${lastInputNumber}`);-->
+
+<!--            wrapper.removeChild(labelToRemove);-->
+<!--            wrapper.removeChild(inputToRemove);-->
+<!--        } else {-->
+<!--            alert('Не можна видалити останнє поле');-->
+<!--        }-->
+<!--    }-->
+
+
+<!--    function goBack() {-->
+<!--        window.history.back();-->
+<!--    }-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>SHOP</title>
     <link rel="stylesheet" th:href="@{/css/goods-add.css}"/>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
 <body>
 
 
-<div class="bg-img">
+<div class="bg">
     <div class="content">
-        <h1>Add good</h1>
+        <h1>Add goods</h1>
         <form th:action="@{/shop/goods/create}" method="post" enctype="multipart/form-data">
-            <div class="field">
-                <span class="fa fa-user"></span>
+            <div class="field_space">
+                <i class="bx bxs-pen"></i>
                 <input type="text" required placeholder="Title" name="title">
             </div>
-            <div class="field space">
-                <span class="fa fa-lock"></span>
-                <input type="text" class="pass-key" required placeholder="Description" name="description">
-                <span class="show">SHOW</span>
+            <div class="field_space">
+                <i class="bx bxs-purchase-tag-alt"></i>
+                <input type="text" required placeholder="Description" name="description">
             </div>
-            <div class="field space">
-                <span class="fa fa-lock"></span>
-                <input type="text" class="pass-key" required placeholder="Price" name="price">
-                <span class="show">SHOW</span>
+            <div class="field_space">
+                <i class="bx bxs-dollar-circle"></i>
+                <input type="text" required placeholder="Price" name="price">
             </div>
-
-            <label for="productType">Тип товару:</label>
-            <select name="productType" id="productType">
-                <option value="personal">Особистий</option>
-                <option value="store">Магазин</option>
-            </select>
-
-            <div id="fileInputs">
-                <input type="file" name="files" id="fileInput" accept="image/*" />
-                <label for="fileInput"></label>
+            <label class="fields_labels">Categories:</label>
+            <div class="categories_field">
+                <div class="category_member">
+                <input type="checkbox" name="categories" value="1" id="category1" class="category_input">
+                <label for="category1">Electronics</label>
             </div>
-
-            <button type="button" onclick="addFileInput()">Додати фотографію</button>
-            <button type="button" onclick="removeFileInput()">Видалити фотографію</button>
-            <div class="field">
-                <input type="submit" value="ADD">
-                <input type="button" value="BACK" onclick="goBack()">
+            <div class="category_member">
+                <input type="checkbox" name="categories" value="2" id="category2" class="category_input">
+                <label for="category2">Sports and Entertainment</label>
             </div>
-        </form>
-        <script>
-            function addFileInput() {
-                var fileInputs = document.getElementById('fileInputs');
-                var inputCount = fileInputs.getElementsByTagName('input').length;
-
-                if (inputCount < 9) {
-                    var newInput = document.createElement('input');
-                    newInput.type = 'file';
-                    newInput.name = 'files';
-                    newInput.accept = 'image/*';
-                    fileInputs.appendChild(newInput);
-                } else {
-                    alert('Максимальна кількість фотографій досягнута');
-                }
-            }
-            function removeFileInput() {
-                var fileInputs = document.getElementById('fileInputs');
-                var inputCount = fileInputs.getElementsByTagName('input').length;
-
-                if (inputCount > 1) {
-                    var lastInput = fileInputs.lastElementChild;
-                    fileInputs.removeChild(lastInput);
-                } else {
-                    alert('Не можна видалити останнє поле');
-                }
-            }
-            function goBack() {
-                window.history.back();
-            }
-        </script>
+            <div class="category_member">
+                <input type="checkbox" name="categories" value="3" id="category3" class="category_input">
+                <label for="category3">Pets</label>
+            </div>
+            <div class="category_member">
+                <input type="checkbox" name="categories" value="4" id="category4" class="category_input">
+                <label for="category4">Fashion and Style</label>
+            </div>
+            <div class="category_member">
+                <input type="checkbox" name="categories" value="5" id="category5" class="category_input">
+                <label for="category5">Real Estate</label>
+            </div>
+            <div class="category_member">
+                <input type="checkbox" name="categories" value="6" id="category6" class="category_input">
+                <label for="category6">Transportation</label>
+            </div>
+            <div class="category_member">
+                <input type="checkbox" name="categories" value="7" id="category7" class="category_input">
+                <label for="category7">Furniture</label>
+            </div>
     </div>
+
+    <label class="fields_labels" for="productType">Type of goods:</label>
+    <div class="productType_field">
+    <select name="productType" id="productType">
+        <option value="personal">Особистий</option>
+        <option value="store">Магазин</option>
+    </select>
+</div>
+
+    <div id="fileInputs">
+        <input type="file" name="files" id="fileInput" accept="image/*"/>
+        <label for="fileInput"></label>
+    </div>
+
+            <i class='bx bx-plus' onclick="addFileInput()"></i>
+            <i class='bx bx-minus' onclick="removeFileInput()"></i>
+
+    <div class="submittion_field">
+        <input type="submit" value="ADD">
+        <input type="button" value="BACK" onclick="goBack()">
+    </div>
+    </form>
+    <script>
+        function addFileInput() {
+            var fileInputs = document.getElementById('fileInputs');
+            var inputCount = fileInputs.getElementsByTagName('input').length;
+
+            if (inputCount < 9) {
+                var newInput = document.createElement('input');
+                newInput.type = 'file';
+                newInput.name = 'files';
+                newInput.accept = 'image/*';
+                fileInputs.appendChild(newInput);
+            } else {
+                alert('Максимальна кількість фотографій досягнута');
+            }
+        }
+
+        function removeFileInput() {
+            var fileInputs = document.getElementById('fileInputs');
+            var inputCount = fileInputs.getElementsByTagName('input').length;
+
+            if (inputCount > 1) {
+                var lastInput = fileInputs.lastElementChild;
+                fileInputs.removeChild(lastInput);
+            } else {
+                alert('Не можна видалити останнє поле');
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</div>
 </div>
 </div>
 </body>

@@ -3,21 +3,95 @@
 <head>
     <title th:text="${title}">Заголовок за замовчуванням</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" th:href="@{/css/profile.css}" />
-    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/profile.css}"/>
+    <link rel="stylesheet" th:href="@{/css/newHeader.css}"/>
 </head>
 <body>
-<header th:insert="header :: header"></header>
-<h1>
-    Hello <span th:if="${isAuthenticated}" th:text="${user.email}"></span>
-</h1>
-</body>
-<body>
-<h1>Hello</h1>
-<form action="/logout" method="post">
-    <input type="hidden"  name="_csrf" value="${_csrf.token}">
-    <input type="submit" value="logout">
-</form>
-<a href="/">Homepage</a>
+
+<header>
+    <a href="/shop">
+        <img id="logo" src="https://i.ibb.co/CQDMyYV/Shop-App.png" alt="Your Logo">
+    </a>
+    <div id="profile-info">
+        <a href="#">
+            <span id="set-lang-eng">eng</span>
+        </a>
+        <a href="#">
+            <img id="line-photo" src="https://i.ibb.co/wMcyPBH/line.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <span id="set-lang-ukr">ukr</span>
+        </a>
+        <a href="#">
+            <img id="message-photo" src="https://i.ibb.co/7rDQPqV/message.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <span id="message-page">Повідомлення</span>
+        </a>
+        <a href="#">
+            <img id="like-photo" src="https://i.ibb.co/7t552jr/like.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <span id="like-page">Обране</span>
+        </a>
+        <a href="profile.html">
+            <img id="profile-photo" src="https://i.ibb.co/jyXc9hm/profile.png" alt="Profile Photo">
+        </a>
+        <div class="profile-dropdown" id="profileDropdown" onmouseleave="hideOnMouseLeave()">
+            <a href="javascript:void(0);" class="profile-link" onmouseover="showProfileMenu()"><span id="profile-name">Ваш профіль</span>
+            </a>
+            <div class="dropdown-content" id="profileMenu" onmouseleave="hideOnMouseLeave()">
+                <a href="/userProfile" th:if="${isAuthenticated}" th:text="${user.fullName}"></a>
+                <a href="/shop">Оголошення</a>
+                <a href="#">Повідомлення</a>
+                <a href="/create-store">Створити магазин</a>
+                <a href="/admin">Панель адміністрації</a>
+                <a th:if="${isAuthenticated}" th:href="@{/logout}" onclick="logout(event)" th:text="Вихід"></a>
+                <a href="/login" th:unless="${isAuthenticated}" th:text="Вхід"></a>
+            </div>
+        </div>
+    </div>
+    <button id="add-ad-button"><a href="/shop/addgood">Додати оголошення</a></button>
+</header>
+
+<div class="profile-container">
+        <div th:if="${user.userImages != null and user.userImages.size() > 0}" class="profile-picture" th:each="image : ${user.userImages}">
+            <img th:src="@{'/user-images/' + ${image.originalFileName}}" alt="User Image"/>
+        </div>
+    <div class="user-details">
+        <h2><span th:text="${user.fullName}"></span></h2>
+        <p>Email: <span th:text="${user.email}"></span></p>
+        <p>Phone Number: <span th:text="${user.phoneNumber}"></span></p>
+        <p>Active: <span th:text="${user.active}"></span></p>
+        <button class="check-status-button" onclick="openStatusBlock()">Перевірити статус представника</button>
+    </div>
+</div>
+
+<div class="overlay" id="overlay" th:if="${user.store != null}"></div>
+<div class="status-popup" id="status-popup" th:if="${user.store != null}">
+    <h2>Store Details:</h2>
+    <p>Store Name: <span th:text="${user.store.name}"></span></p>
+    <p>Company Full Name: <span th:text="${user.store.companyFullName}"></span></p>
+    <p>Main Office: <span th:text="${user.store.mainOffice}"></span></p>
+    <p>Customer Support: <span th:text="${user.store.customerSupport}"></span></p>
+    <p>Legal Form: <span th:text="${user.store.legalForm}"></span></p>
+    <p>Legal Entity Code: <span th:text="${user.store.legalEntityCode}"></span></p>
+    <p>Authorised Persons: <span th:text="${user.store.authorisedPersons}"></span></p>
+    <p>Is Registered: <span th:text="${user.store.isRegistered}"></span></p>
+    <button class="exit-button" onclick="closeStatusBlock()">Закрити</button>
+</div>
+
+<script>
+    function openStatusBlock() {
+        document.getElementById("overlay").style.display = "block";
+        document.getElementById("status-popup").style.display = "block";
+    }
+
+    function closeStatusBlock() {
+        document.getElementById("overlay").style.display = "none";
+        document.getElementById("status-popup").style.display = "none";
+    }
+</script>
+
 </body>
 </html>

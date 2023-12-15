@@ -1,16 +1,17 @@
 package com.shop.ua.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.shop.ua.enums.Role;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -34,6 +35,26 @@ public class User implements UserDetails {
     private boolean emailVerified;
     @Column(name = "emailVerificationToken")
     private String emailVerificationToken;
+
+    @Transient
+    private MultipartFile userImageFile;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("user")
+    private List<UserImage> userImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Message> sentMessages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Message> receivedMessages = new ArrayList<>();
+
+
+    public void addImageToUser(UserImage userImage) {
+        userImages.add(userImage);
+        userImage.setUser(this);
+    }
+
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",
@@ -91,5 +112,15 @@ public class User implements UserDetails {
     public int hashCode() {
         return id != null ? id.hashCode() : super.hashCode();
     }
+
+    public MultipartFile getUserImageFile() {
+        return userImageFile;
+    }
+
+    public void setUserImageFile(MultipartFile userImageFile) {
+        this.userImageFile = userImageFile;
+    }
+
+
 
 }

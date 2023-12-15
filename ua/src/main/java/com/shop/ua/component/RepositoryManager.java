@@ -29,10 +29,16 @@ public class RepositoryManager {
     @Autowired
     private StoreRepository storeRepository;
     @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
     private StoreService storeService;
 
     public UserRepository getUserRepository() {
         return userRepository;
+    }
+
+    public CategoryRepository getCategoryRepository() {
+        return categoryRepository;
     }
 
     public StoreRepository getStoreRepository() {

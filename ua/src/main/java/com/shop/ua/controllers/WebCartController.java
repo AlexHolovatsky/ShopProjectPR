@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -33,7 +34,21 @@ public class WebCartController {
             model.addAttribute("isAuthenticated", true);
         }
 
+        BigDecimal totalAmount = calculateTotalAmount(cartItems); // Розрахунок загальної суми
+        model.addAttribute("totalAmount", totalAmount);
+
         return "cart";
+    }
+
+    private BigDecimal calculateTotalAmount(List<Cart> cartItems) {
+        BigDecimal totalAmount = BigDecimal.ZERO;
+
+        for (Cart cartItem : cartItems) {
+            BigDecimal price = BigDecimal.valueOf(cartItem.getGoods().getPrice());
+            totalAmount = totalAmount.add(price);
+        }
+
+        return totalAmount;
     }
 
     @PostMapping("/cart/add/{userId}/{goodsId}")
@@ -82,5 +97,6 @@ public class WebCartController {
 
         return "redirect:/cart";
     }
+
 
 }

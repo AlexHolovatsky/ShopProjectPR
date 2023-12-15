@@ -4,6 +4,7 @@ import com.shop.ua.component.RepositoryManager;
 import com.shop.ua.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +51,30 @@ public class WebUserController {
     @GetMapping("/verify-email")
     public String showEmailVerificationPage() {
         return "verify-email";
+    }
+
+    @GetMapping("/userProfile")
+    public String userProfile(Model model, Authentication authentication) {
+        String currentUsername = (authentication != null) ? authentication.getName() : null;
+        User user = repositoryManager.getUserRepository().findByEmail(currentUsername);
+
+        // Передати дані користувача в модель для відображення на сторінці
+        model.addAttribute("user", user);
+
+        // Поверніть назву Thymeleaf-шаблону
+        return "userprofile";
+    }
+
+    @GetMapping("/user/profile")
+    public String showUserProfile(Model model, Authentication authentication) {
+        String currentUsername = (authentication != null) ? authentication.getName() : null;
+        User user = repositoryManager.getUserRepository().findByEmail(currentUsername);
+
+        // Передати дані користувача в модель для відображення на сторінці
+        model.addAttribute("user", user);
+
+        // Повернути назву HTML-сторінки (без розширення)
+        return "user-profile";
     }
 
 }

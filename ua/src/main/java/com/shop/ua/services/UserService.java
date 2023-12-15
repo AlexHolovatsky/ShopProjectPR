@@ -2,9 +2,12 @@ package com.shop.ua.services;
 
 import com.shop.ua.component.RepositoryManager;
 import com.shop.ua.enums.Role;
+import com.shop.ua.models.UserImage;
 import com.shop.ua.models.User;
+import com.shop.ua.repositories.UserImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,8 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -27,6 +34,9 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private RepositoryManager repositoryManager;
+    @Autowired
+    private final UserImageRepository userImageRepository;
+
 
     public User findByEmail(String email) {
         return repositoryManager.getUserRepository().findByEmail(email);
@@ -41,6 +51,17 @@ public class UserService implements UserDetailsService {
 
         String verificationToken = repositoryManager.getTokenService().generateToken();
         repositoryManager.getTokenService().saveTokenToUser(user, verificationToken);
+
+        MultipartFile userImageFile = user.getUserImageFile();
+        if (userImageFile != null && !userImageFile.isEmpty()) {
+            try {
+                String imagePath = repositoryManager.getUserService().saveImageToFileSystem(userImageFile);
+                UserImage userImage = repositoryManager.getUserService().toImageEntity(userImageFile, imagePath);
+                user.addImageToUser(userImage);
+            } catch (IOException e) {
+                e.printStackTrace(); // Додайте логіку обробки помилок, якщо потрібно
+            }
+        }
 
         logger.info("Saving new User with email: {}", email);
         repositoryManager.getUserRepository().save(user);
@@ -121,6 +142,34 @@ public class UserService implements UserDetailsService {
             return null;
         }
         return (User) authentication.getPrincipal();
+    }
+
+
+    public UserImage getUserImageById(Long id) {
+        return userImageRepository.findById(id).orElse(null);
+    }
+
+    public String saveImageToFileSystem(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        String filePath = "C:\\javastudy\\project\\ShopProject\\ua\\src\\main\\resources\\static\\user-images\\" + fileName;
+        file.transferTo(new File(filePath));
+        log.debug("Saved image file to path: {}", filePath);
+        return filePath;
+    }
+
+//    public void saveUserImage(User user, MultipartFile file) throws IOException {
+//        if (file.getSize() != 0) {
+//            UserImage userImage = toImageEntity(file);
+//            user.addImageToUser(userImage);
+//            repositoryManager.getUserRepository().save(user);
+//        }
+//    }
+
+    private UserImage toImageEntity(MultipartFile file, String filePath) throws IOException {
+        UserImage image = new UserImage();
+        image.setOriginalFileName(file.getOriginalFilename());
+        image.setImagePath(filePath);
+        return image;
     }
 
 

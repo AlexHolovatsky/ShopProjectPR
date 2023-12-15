@@ -27,7 +27,7 @@ public class WebMainController {
             model.addAttribute("isAuthenticated", true);
         }
 
-        return "main";
+        return "TestNewDesign";
     }
 
 }

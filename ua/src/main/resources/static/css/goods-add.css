@@ -1,311 +1,227 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Poppins:400,500&display=swap');
-*{
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    display:none
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    user-select: none;
-}
-.bg-img{
-    /*background: url('bg.jpg');*/
-    height: 100vh;
-    background-size: cover;
-    background-position: center;
-}
-.bg-img:after{
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: rgba(0,0,0,0.7);
-}
-.content{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 999;
-    text-align: center;
-    padding: 60px 32px;
-    width: 370px;
-    transform: translate(-50%,-50%);
-    background: rgba(255,255,255,0.04);
-    box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
-}
-.content header{
-    color: white;
-    font-size: 33px;
-    font-weight: 600;
-    margin: 0 0 35px 0;
-    font-family: 'Montserrat',sans-serif;
-}
-.field{
-    position: relative;
-    height: 45px;
-    width: 100%;
-    display: flex;
-    background: rgba(255,255,255,0.94);
-    margin: 0 0 20px 0px;
-}
-.field span{
-    color: #222;
-    width: 40px;
-    line-height: 45px;
-}
-.field input{
-    height: 100%;
-    width: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #222;
-    font-size: 16px;
-    font-family: 'Poppins',sans-serif;
-}
-.space{
-    margin-top: 16px;
-}
-.show{
-    position: absolute;
-    right: 13px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #222;
-    display: none;
-    cursor: pointer;
-    font-family: 'Montserrat',sans-serif;
-}
-.pass-key:valid ~ .show{
-    display: block;
-}
-.pass{
-    text-align: left;
-    margin: 0px 0;
-}
-.pass a{
-    color: white;
-    text-decoration: none;
-    font-family: 'Poppins',sans-serif;
-}
-.pass:hover a{
-    text-decoration: underline;
-}
-.field input[type="submit"]{
-    background: #3498db;
-    border: 1px solid #2691d9;
-    color: white;
-    font-size: 18px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Montserrat',sans-serif;
-}
-.field input[type="submit"]:hover{
-    background: #2691d9;
-}
-.login{
-    color: white;
-    margin: 20px 0;
-    font-family: 'Poppins',sans-serif;
-}
-.links{
-    display: flex;
-    cursor: pointer;
-    color: white;
-    margin: 0 0 20px 0;
-}
-.facebook,.instagram{
-    width: 100%;
-    height: 45px;
-    line-height: 45px;
-    margin-left: 10px;
-}
-.facebook{
-    margin-left: 0;
-    background: #4267B2;
-    border: 1px solid #3e61a8;
-}
-.instagram{
-    background: #E1306C;
-    border: 1px solid #df2060;
-}
-.facebook:hover{
-    background: #3e61a8;
-}
-.instagram:hover{
-    background: #df2060;
-}
-.links i{
-    font-size: 17px;
-}
-i span{
-    margin-left: 8px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    font-size: 16px;
-    font-family: 'Poppins',sans-serif;
-}
-.signup{
-    font-size: 15px;
-    color: white;
-    font-family: 'Poppins',sans-serif;
-    margin: 15px 0;
-}
-.error-message{
-    color: #D8000C;
-    background-color: #FFBABA;
-    font-size: 15px;
-    font-family: 'Poppins',sans-serif;
-}
-.successMessage{
-    color: green;
-    background-color: lightblue;
-    font-size: 15px;
-    font-family: 'Poppins',sans-serif;
-}
-.signup a{
-    color: #3498db;
-    text-decoration: none;
-}
-.signup a:hover{
-    text-decoration: underline;
-}
-body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
 }
 
-h1 {
-    color: #333;
-    text-align: center;
-    margin-top: 20px;
-    font-family: 'Montserrat', sans-serif;
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
-a {
-    color: #3498db;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.bg-img {
+.content{
     position: relative;
+    margin: 100px 0;
+    min-width: 400px;
+    display: block;
+    padding: 20px 30px;
+    border: 1px solid rgb(210, 206, 206);
+    border-radius: 15px;
 }
 
-.content {
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    padding: 40px;
+h1{
+    position: relative;
+    text-align: center;
+    margin: 5px auto 15px;
 }
 
-.field input[type="text"] {
-    padding: 10px;
+.field_space{
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin-bottom: 16px;
 }
 
-.field.space {
-    margin-top: 20px;
+.field_space::before{
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 35px;
+    border-left: 1px solid grey;
+    left: 35px;
 }
 
-.field input[type="submit"] {
-    background: #3498db;
-    border: 1px solid #2691d9;
-    color: white;
+.field_space>i{
+    position: absolute;
+    display: inline-block;
+    font-size: 16px;
+    left: 10px;
+}
+
+.field_space>input{
+    line-height: 35px;
+    text-indent: 43px;
+    min-width: 100%;
+    border: 1px solid rgb(210, 206, 206);
+    background-color: rgb(241, 241, 241);
+    border-radius: 6px;
+    transition: 0.6s;
+}
+
+.field_space>input:hover {
+    border: 1px solid black;
+}
+
+.categories_field{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 5px;
+    margin-bottom: 15px;
+    max-width: 400px;
+}
+
+.fields_labels{
     font-size: 18px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
+    display: inline-block;
+    margin-bottom: 5px;
 }
 
-.field input[type="submit"]:hover {
-    background: #2691d9;
+.category_member{
+    position: relative;
+    display: inline-block;
+    padding: 7px 12px;
+    margin-right: 5px;
+    border: 1px solid grey;
+    border-radius: 15px;
+    transition: 0.4s;
 }
 
-#fileInputs {
-    margin-top: 20px;
+.category_input {
+    display: none;
 }
 
-button {
-    background: #3498db;
-    border: 0;
-    color: white;
-    font-size: 18px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 10px;
-    font-family: 'Montserrat', sans-serif;
-    margin: 5px;
-    width: 100%;
-    box-sizing: border-box;
-    transition: background 0.3s ease-in-out;
+.category_member:has(input[type="checkbox"]:checked){
+    background-color: rgb(49, 110, 214);
+    border-color: azure;
+    color: azure;
 }
 
-button:hover {
-    background: #2691d9;
-}
-/* Стилі для контейнера полів вводу файлів */
-#fileInputs {
+.productType_field{
+    position: relative;
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
-}
-
-/* Стилі для кожного поля вводу файлу */
-#fileInputs input[type="file"] {
-    padding: 10px;
     margin-bottom: 10px;
+}
+
+.productType_field>select{
+    display: inline-block;
+    font-size: 14px;
+    min-width: 100%;
+    padding-right: 10px;
+    text-indent: 10px;
+    height: 35px;
+    border: 1px solid rgb(210, 206, 206);
+    background-color: rgb(235, 235, 235);
+    border-radius: 6px;
+    transition: 0.6s;
+}
+
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.btn {
+    position: relative;
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.6s;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.btn:hover{
+    color: white;
+    background-color: gray;
     cursor: pointer;
-    border: 1px solid #ccc;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 123px;
+    height: 32px;
+}
+
+.pictures_controll__field{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-bottom: 10px;
+}
+
+.upload-btn-wrapper i {
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+    margin-left: 4px;
+    border: 1px solid rgb(210, 206, 206);
+    border-radius: 50%;
+    background-color: rgb(241, 241, 241);
+    transition: 0.4s;
+}
+
+.upload-btn-wrapper i:hover{
+    background-color: rgb(224, 223, 223);
+}
+
+.submittion_field{
+    position: relative;
+    display: flex;
+    width: 80%;
+    margin: 15px auto 0;
+    justify-content: space-between;
+}
+
+.submittion_field input{
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    min-width: 100px;
+    padding: 8px 18px;
+    border: 0px solid black;
     border-radius: 5px;
+    transition: 0.4s;
 }
 
-/* Додайте стилі для призначення вигляду при наведенні, якщо потрібно */
-#fileInputs input[type="file"]:hover {
-    background-color: #f5f5f5;
+#submit_btn{
+    color: azure;
+    background-color: rgb(49, 110, 214);
 }
 
-/* Стилі для поля вводу файлів при фокусуванні */
-#fileInputs input[type="file"]:focus {
-    outline: none; /* Забрати стандартний обведений контур */
+#submit_btn:hover{
+    background-color: rgb(31, 86, 180);
 }
 
-/* Стилі для тексту-підказки (placeholder) у поля вводу файлів */
-#fileInputs input[type="file"]::placeholder {
-    color: transparent;
+#cancel_btn:hover{
+    background-color: rgb(224, 223, 223);
 }
 
-.field input[type="button"]{
-    background: #3498db;
-    border: 1px solid #2691d9;
-    color: white;
-    font-size: 18px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Montserrat',sans-serif;
-}
-.field input[type="button"]:hover{
-    background: #2691d9;
-}
-
-.field input[type="button"] {
-    background: #3498db;
-    border: 1px solid #2691d9;
-    color: white;
-    font-size: 18px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-.field input[type="button"]:hover {
-    background: #2691d9;
+#fileInputs{
+    display:flex;
+    flex-direction: column;
 }

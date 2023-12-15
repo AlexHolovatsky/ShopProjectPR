@@ -4,143 +4,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-header {
-    background-color: #002f34;
-    color: #ffffff;
-    padding: 10px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    height: 50px;
-}
-
-a {
-    text-decoration: none; /* Відключити підкреслення */
-    color: inherit; /* Використовувати колір звичайного тексту (успадковування від батьківського елемента) */
-}
-
-/* Додатковий стиль для посилань, які є дочірніми елементами блоку з id "profile-info" */
-#profile-info a {
-    color: #000; /* Задати власний колір для посилань в блоку "profile-info" */
-}
-
-#logo {
-    width: 150px;
-    height: 100px;
-    margin-right: 60px;
-}
-
-#add-ad-button {
-    background-color: #ffffff;
-    color: #002f34;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-family: 'Arial Black', sans-serif;
-    font-size: 14px;
-    margin-left: 60px;
-}
-
-#add-ad-button:hover {
-    background-color: #002f34;
-    color: #ffffff;
-    border: 2px solid white;
-}
-
-#profile-info {
-    display: flex;
-    align-items: center;
-}
-
-#profile-name {
-    margin-left: 10px;
-    font-family: 'Arial Black', sans-serif;
-    font-size: 14px;
-}
-
-#profile-photo {
-    width: 25px;
-    height: 25px;
-    border-radius: 10%;
-    margin-top: 5px;
-}
-
-#like-photo {
-    width: 25px;
-    height: 25px;
-    border-radius: 10%;
-    margin-top: 5px;
-    margin-left: 10px;
-}
-
-#profile-info a {
-    text-decoration: none;
-    color: white;
-}
-
-#message-photo {
-    width: 25px;
-    height: 25px;
-    border-radius: 10%;
-    margin-top: 5px;
-    margin-left: 60px;
-}
-
-#message-page {
-    margin-left: 10px;
-    font-family: 'Arial Black', sans-serif;
-    font-size: 14px;
-    margin-right: 60px;
-}
-
-#message-page:hover {
-    color:#007D89
-}
-
-#like-page:hover {
-    color:#007D89
-}
-
-#profile-name:hover {
-    color:#007D89
-}
-
-#like-page {
-    margin-left: 10px;
-    font-family: 'Arial Black', sans-serif;
-    font-size: 14px;
-    margin-right: 60px;
-}
-
-#line-photo {
-    width: 25px;
-    height: 25px;
-    border-radius: 10%;
-    margin-top: 5px;
-}
-
-#set-lang-eng {
-    font-family: 'Arial Black', sans-serif;
-    font-size: 14px;
-}
-
-#set-lang-ukr {
-    font-family: 'Arial Black', sans-serif;
-    font-size: 14px;
-}
-
-#set-lang-eng:hover {
-    color:#007D89
-}
-#set-lang-ukr:hover {
-    color:#007D89
-}
-
 /* content */
 
 #search-bar {
@@ -266,40 +129,117 @@ a {
 }
 
 /* випадаючий список */
-.profile-dropdown {
+
+
+#sorting-section {
     position: relative;
-    display: inline-block;
+    text-align: center;
+    margin: 20px;
 }
 
-.profile-link {
-    color: white;
-    text-decoration: none;
-    padding: 14px 16px;
-    display: block;
+#sort-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-.dropdown-content {
+.sorting-overlay {
     display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Темний фон */
+    z-index: 2;
 }
 
-.dropdown-content a {
+.sorting-window {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 3;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+select, input {
+    width: calc(100% - 10px);
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+#sort-button {
     background-color: #002f34;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+    color: #ffffff;
+    padding: 12px 30px;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 14px;
+    margin-left: 60px;
 }
 
-.dropdown-content a:hover {
-    background-color: #003f49;
-    color: black;
+#sort-button:hover {
+    background-color: #ffffff;
+    color: #002f34;
+    border: 2px solid #002f34;
 }
 
-.profile-dropdown:hover .dropdown-content {
-    display: block;
+#apply-button {
+    background-color: #002f34;
+    color: #ffffff;
+    padding: 12px 30px;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 14px;
+    margin-left: 60px;
 }
+
+#apply-button:hover {
+    background-color: #ffffff;
+    color: #002f34;
+    border: 2px solid #002f34;
+}
+
+#reset-button {
+    background-color: #002f34;
+    color: #ffffff;
+    padding: 12px 30px;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 14px;
+    margin-left: 60px;
+}
+
+#reset-button:hover {
+    background-color: #ffffff;
+    color: #002f34;
+    border: 2px solid #002f34;
+}
+
+#sort-button + .sorting-window,
+.sorting-window {
+    display: none;
+}
+
+#sort-button + .sorting-window + .sorting-overlay,
+.sorting-window + .sorting-overlay {
+    display: none;
+}
+

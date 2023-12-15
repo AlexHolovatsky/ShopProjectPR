@@ -4,39 +4,208 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
-    <link rel="stylesheet" th:href="@{/css/header.css}"/>
-    <link rel="stylesheet" th:href="@{/css/profile.css}"/>
-    <link rel="stylesheet" th:href="@{/css/productdetail.css}"/>
+    <link rel="stylesheet" th:href="@{/css/newHeader.css}"/>
+<!--    <link rel="stylesheet" th:href="@{/css/profile.css}"/>-->
+    <link rel="stylesheet" th:href="@{/css/details.css}"/>
 </head>
-<body>
 
-<header th:insert="header :: header"></header>
-<div class="container-details">
-    <main>
-        <div class="gallery">
-            <div class="main-photo-wrapper">
-                <img class="main-photo-img" th:src="@{'/images/' + ${product.previewImageId}}" alt="Product Image">
-            </div>
-            <div class="small-photos">
-                <div th:each="image : ${product.images}">
-                    <img class="sub-photo-img" th:src="@{'/images/' + ${image.id}}" alt="Product Image">
+<!--<body>-->
+<!--<header th:insert="header :: header"></header>-->
+<!--<div class="container-details">-->
+<!--    <main>-->
+<!--        <div class="gallery">-->
+<!--            <div class="main-photo-wrapper">-->
+<!--                <img class="main-photo-img" th:src="@{'/images/' + ${product.previewImageId}}" alt="Product Image">-->
+<!--            </div>-->
+<!--            <div class="small-photos">-->
+<!--                <div th:each="image : ${product.images}">-->
+<!--                    <img class="sub-photo-img" th:src="@{'/images/' + ${image.id}}" alt="Product Image">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        <div class="product-details">-->
+<!--            <h1 th:text="${product.title}">Назва товару</h1>-->
+<!--            <p th:text="${product.price}">$Price</p>-->
+<!--            <p th:text="${product.description}">Опис товару</p>-->
+<!--            <form th:action="@{'/cart/add/' + ${user.id} + '/' + ${product.id}}" method="post">-->
+<!--                <button type="submit">Купити</button>-->
+<!--                <p th:text="${user.id}"></p>-->
+<!--                <a href="/cart"> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>-->
+<!--                <p th:text="${user.email}"></p>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </main>-->
+
+<!--</div>-->
+<!--</body>-->
+
+<body>
+<header>
+    <a href="/shop">
+        <img id="logo" src="https://i.ibb.co/CQDMyYV/Shop-App.png" alt="Your Logo">
+    </a>
+    <div id="profile-info">
+        <a href="#">
+            <span id="set-lang-eng">eng</span>
+        </a>
+        <a href="#">
+            <img id="line-photo" src="https://i.ibb.co/wMcyPBH/line.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <span id="set-lang-ukr">ukr</span>
+        </a>
+        <a href="#">
+            <img id="message-photo" src="https://i.ibb.co/7rDQPqV/message.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <div class="profile-dropdown" id="profileDropdownMessage" onmouseleave="hideprofileDropdown()">
+                <a href="javascript:void(0);" class="profile-link" onmouseover="showprofileDropdownMessage()"><span id="message-page">Повідомлення</span></span>
+                </a>
+                <div class="dropdown-content" id="MessageMenu" onmouseleave="hideOnMouseLeave()">
+                    <button class="check-status-button" onclick="openStatusBlock()">Написати повідомлення</button>
+                    <button class="check-status-button" onclick="openMessageBlock()">Вхідні</button>
                 </div>
             </div>
-        <div class="product-details">
-            <h1 th:text="${product.title}">Назва товару</h1>
-            <p th:text="${product.price}">$Price</p>
-            <p th:text="${product.description}">Опис товару</p>
+            <div class="overlay" id="overlay"></div>
+            <div class="status-popup" id="status-popup">
+                <form action="/send-message" method="post">
+                    <label for="recipientEmail">Email:</label>
+                    <input type="email" id="recipientEmail" name="recipientEmail" required>
+
+                    <label for="messageTitle">Заголовок:</label>
+                    <input type="text" id="messageTitle" name="messageTitle" required>
+
+                    <label for="messageContent">Повідомлення:</label>
+                    <textarea id="messageContent" name="messageContent" required></textarea>
+
+                    <button type="submit">Відправити</button>
+                    <button type="button" onclick="closeStatusBlock()">Скасувати</button>
+                </form>
+            </div>
+            <div class="overlay" id="overlay2"></div>
+            <div class="status-popup" id="status-popup2">
+                <tr th:each="message : ${receivedMessages}">
+                    <td th:text="${message.title}"></td>
+                    <td th:text="${message.sender.fullName}"></td>
+                    <td th:text="${message.sentAt}"></td>
+                    <td th:text="${message.content}"></td>
+                </tr>
+                <button type="button" onclick="closeMessageBlock()">Скасувати</button>
+            </div>
+        </a>
+        <a href="#">
+            <img id="like-photo" src="https://i.ibb.co/7t552jr/like.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <span id="like-page">Обране</span>
+        </a>
+        <a href="profile.html">
+            <img id="profile-photo" src="https://i.ibb.co/jyXc9hm/profile.png" alt="Profile Photo">
+        </a>
+        <div class="profile-dropdown" id="profileDropdown" onmouseleave="hideOnMouseLeave()">
+            <a href="javascript:void(0);" class="profile-link" onmouseover="showProfileMenu()"><span id="profile-name">Ваш профіль</span>
+            </a>
+            <div class="dropdown-content" id="profileMenu" onmouseleave="hideOnMouseLeave()">
+                <a href="/userProfile" th:if="${isAuthenticated}" th:text="${user.fullName}"></a>
+                <a href="/cart" th:if="${isAuthenticated}" th:text="Кошик"></a>
+                <a href="#">Повідомлення</a>
+                <a href="/create-store">Створити магазин</a>
+                <a href="/admin">Панель адміністрації</a>
+                <a th:if="${isAuthenticated}" th:href="@{/logout}" onclick="logout(event)" th:text="Вихід"></a>
+                <a href="/login" th:unless="${isAuthenticated}" th:text="Вхід"></a>
+            </div>
+        </div>
+    </div>
+    <button id="add-ad-button"><a href="/shop/addgood">Додати оголошення</a></button>
+</header>
+
+
+<div class="wrapper">
+    <main class="product__field">
+        <div class="side_photos_field">
+            <div class="photos_controller__button"><i class='bx bxs-up-arrow'></i></div>
+            <div th:each="image : ${product.images}" class="photos_column__field">
+                <img class="sub-photo-img" th:src="@{'/images/' + ${image.id}}" alt="Product Image">
+            </div>
+            <div class="photos_controller__button"><i class='bx bxs-down-arrow'></i></div>
+
+        </div>
+        <div class="main_photo__field">
+            <img class="main_photo__photo" th:src="@{'/images/' + ${product.previewImageId}}" alt="Product Image"></img>
+            <div class="main_photo__buttons">
+                <i class='bx bx-chevron-left' ></i>
+                <i class='bx bx-chevron-right' ></i>
+            </div>
+        </div>
+        <div class="main_info__field">
+            <p class="main_info__title"><h1>Title</h1><h1 th:text="${product.title}"></h1> </p>
+            <span class="main_info__price"><p th:text="${product.price} +'$'"></p></span>
             <form th:action="@{'/cart/add/' + ${user.id} + '/' + ${product.id}}" method="post">
-                <button type="submit">Купити</button>
-                <p th:text="${user.id}"></p>
-                <a href="/cart"> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
-                <p th:text="${user.email}"></p>
+                <button class="buy-button-page" type="submit" value="Купити">Buy</button>
             </form>
+            <p th:text="'Placement date: ' + ${#temporals.format(product.dateOfCreate, 'dd-MM-yyyy HH:mm')}"></p>
+
+        </div>
+    </main>
+    <article class="secondary__field">
+        <div class="description__field">
+            <h2>Description</h2>
+            <p th:text="${product.description}"> class="description__text"></p>
+
+            <p class="description__text"></p>
         </div>
 
-    </main>
-
+        <div class="comments__field">
+            <h2>
+                Comments</h2>
+            <div class="comment_card__field">
+                <div class="commentator__field">
+                    <div class="commentator_photo__field"><img src="" alt=""></div>
+                    <div class="commentator_info__field">
+                        <span>Антоніо Монтана</span>
+                    </div>
+                    <i class='bx bx-chevron-down'></i>
+                </div>
+                <div class="comment_content__field">
+                    <p class="comment_content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta assumenda debitis beatae quisquam quam cupiditate minima dolorem inventore. Molestiae quasi veritatis facilis. Minima, fugit vero commodi sint voluptatibus architecto obcaecati.</p>
+                    <span class="comment_date">12.10.2023</span>
+                </div>
+            </div>
+            <div class="comment_card__field">
+                <div class="commentator__field">
+                    <div class="commentator_photo__field"><img src="" alt=""></div>
+                    <div class="commentator_info__field">
+                        <span>Антоніо Монтана</span>
+                    </div>
+                    <i class='bx bx-chevron-down'></i>
+                </div>
+                <div class="comment_content__field">
+                    <p class="comment_content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta assumenda debitis beatae quisquam quam cupiditate minima dolorem inventore. Molestiae quasi veritatis facilis. Minima, fugit vero commodi sint voluptatibus architecto obcaecati.</p>
+                    <span class="comment_date">12.10.2023</span>
+                </div>
+            </div>
+        </div>
+    </article>
 </div>
+
+<script>
+    var comments = document.querySelectorAll('.comment_card__field');
+
+    comments.forEach(comment => {
+        comment.addEventListener("click", () => {
+            var contentField = comment.querySelector('.comment_content__field');
+            contentField.classList.toggle('_visible');
+            contentField.classList.toggle('_hidden');
+        });
+    });
+
+    var photos_field = document.querySelector('.photos_column__field');
+    var photos = photos_field.querySelectorAll('img');
+
+    function PhotosCount() {
+        return photos.length;
+    }
+
+</script>
 
 </body>
 </html>

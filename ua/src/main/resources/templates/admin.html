@@ -3,12 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" th:href="@{/css/profile.css}"/>
-    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+    <link rel="stylesheet" th:href="@{/css/newHeader.css}"/>
 </head>
 <body>
-<header th:insert="header :: header"></header>
-<table>
+<header>
+    <a href="/shop">
+        <img id="logo" src="https://i.ibb.co/CQDMyYV/Shop-App.png" alt="Your Logo">
+    </a>
+    <div id="profile-info">
+        <a href="#">
+            <span id="set-lang-eng">eng</span>
+        </a>
+        <a href="#">
+            <img id="line-photo" src="https://i.ibb.co/wMcyPBH/line.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <span id="set-lang-ukr">ukr</span>
+        </a>
+        <a href="#">
+            <img id="message-photo" src="https://i.ibb.co/7rDQPqV/message.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <div class="profile-dropdown" id="profileDropdownMessage" onmouseleave="hideprofileDropdown()">
+                <a href="javascript:void(0);" class="profile-link" onmouseover="showprofileDropdownMessage()"><span id="message-page">Повідомлення</span></span>
+                </a>
+                <div class="dropdown-content" id="MessageMenu" onmouseleave="hideOnMouseLeave()">
+                    <button class="check-status-button" onclick="openStatusBlock()">Написати повідомлення</button>
+                    <button class="check-status-button" onclick="openMessageBlock()">Вхідні</button>
+                </div>
+            </div>
+            <div class="overlay" id="overlay"></div>
+            <div class="status-popup" id="status-popup">
+                <form action="/send-message" method="post">
+                    <label for="recipientEmail">Email:</label>
+                    <input type="email" id="recipientEmail" name="recipientEmail" required>
+
+                    <label for="messageTitle">Заголовок:</label>
+                    <input type="text" id="messageTitle" name="messageTitle" required>
+
+                    <label for="messageContent">Повідомлення:</label>
+                    <textarea id="messageContent" name="messageContent" required></textarea>
+
+                    <button type="submit">Відправити</button>
+                    <button type="button" onclick="closeStatusBlock()">Скасувати</button>
+                </form>
+            </div>
+            <div class="overlay" id="overlay2"></div>
+            <div class="status-popup" id="status-popup2">
+                <tr th:each="message : ${receivedMessages}">
+                    <td th:text="${message.title}"></td>
+                    <td th:text="${message.sender.fullName}"></td>
+                    <td th:text="${message.sentAt}"></td>
+                    <td th:text="${message.content}"></td>
+                </tr>
+                <button type="button" onclick="closeMessageBlock()">Скасувати</button>
+            </div>
+        </a>
+        <a href="#">
+            <img id="like-photo" src="https://i.ibb.co/7t552jr/like.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <span id="like-page">Обране</span>
+        </a>
+        <a href="profile.html">
+            <img id="profile-photo" src="https://i.ibb.co/jyXc9hm/profile.png" alt="Profile Photo">
+        </a>
+        <div class="profile-dropdown" id="profileDropdown" onmouseleave="hideOnMouseLeave()">
+            <a href="javascript:void(0);" class="profile-link" onmouseover="showProfileMenu()"><span id="profile-name">Ваш профіль</span>
+            </a>
+            <div class="dropdown-content" id="profileMenu" onmouseleave="hideOnMouseLeave()">
+                <a href="/userProfile" th:if="${isAuthenticated}" th:text="${user.fullName}"></a>
+                <a href="/shop">Оголошення</a>
+                <a href="#">Повідомлення</a>
+                <a href="/create-store">Створити магазин</a>
+                <a href="/admin">Панель адміністрації</a>
+                <a th:if="${isAuthenticated}" th:href="@{/logout}" onclick="logout(event)" th:text="Вихід"></a>
+                <a href="/login" th:unless="${isAuthenticated}" th:text="Вхід"></a>
+            </div>
+        </div>
+    </div>
+    <button id="add-ad-button"><a href="/shop/addgood">Додати оголошення</a></button>
+</header>
+
+<div>
+<table id="users-table">
     <tr>
         <th>ID</th>
         <th>Email</th>
@@ -16,6 +95,7 @@
         <th>Phone</th>
         <th>Active</th>
         <th>Role</th>
+        <th colspan="4">Actions</th>
     </tr>
     <tr th:each="user : ${users}">
         <td th:text="${user.id}"></td>
@@ -46,7 +126,9 @@
         </td>
     </tr>
 </table>
-<table>
+</div>
+<div>
+<table id="products-table">
     <tr>
         <th>Title</th>
         <th>Description</th>
@@ -68,5 +150,45 @@
         </td>
     </tr>
 </table>
+</div>
+<script>
+    function showProfileMenu() {
+        document.getElementById("profileMenu").style.display = "block";
+    }
+
+    function showprofileDropdownMessage() {
+        document.getElementById("MessageMenu").style.display = "block";
+    }
+
+    function hideprofileDropdown() {
+        document.getElementById("MessageMenu").style.display = "none";
+    }
+    function hideOnMouseLeave() {
+        document.getElementById("profileMenu").style.display = "none";
+    }
+
+    function openStatusBlock() {
+        document.getElementById("overlay").style.display = "block";
+        document.getElementById("status-popup").style.display = "block";
+    }
+
+    function closeStatusBlock() {
+        document.getElementById("overlay").style.display = "none";
+        document.getElementById("status-popup").style.display = "none";
+    }
+
+    function openMessageBlock() {
+        document.getElementById("overlay2").style.display = "block";
+        document.getElementById("status-popup2").style.display = "block";
+    }
+
+    function closeMessageBlock() {
+        document.getElementById("overlay2").style.display = "none";
+        document.getElementById("status-popup2").style.display = "none";
+    }
+
+
+</script>
+
 </body>
 </html>

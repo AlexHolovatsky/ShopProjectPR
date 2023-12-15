@@ -9,8 +9,7 @@ import org.apache.catalina.LifecycleState;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "goods")
@@ -24,7 +23,8 @@ public class Goods {
     private Long id;
     @Column(name = "title")
     private String title;
-    @Column(name = "description")
+    @Lob
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     @Column(name = "price")
     private int price;
@@ -46,6 +46,26 @@ public class Goods {
 
     private LocalDateTime dateOfCreate;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "goods_categories",
+            joinColumns = @JoinColumn(name = "goods_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    @JsonManagedReference
+    private Set<Category> categories = new HashSet<>();
+
+
+    public void addCategory(Category category) {
+        categories.add(category);
+        category.getGoods().add(this);
+    }
+
+    public void removeCategory(Category category) {
+        categories.remove(category);
+        category.getGoods().remove(this);
+    }
+
     @PrePersist
     private void init(){
         dateOfCreate = LocalDateTime.now();
@@ -66,6 +86,11 @@ public class Goods {
     }
     public void setIsPersonal(boolean isPersonal) {
         this.isPersonal = isPersonal;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
 }

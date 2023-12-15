@@ -28,14 +28,39 @@ public class WebGoodsController {
     @Autowired
     private RepositoryManager repositoryManager;
 
+//    @GetMapping("/shop")
+//    public String approvedGoods(Model model, @RequestParam(name = "search", required = false) String search) {
+//        List<Goods> searchResults;
+//
+//        if (search != null && !search.isEmpty()) {
+//            searchResults = repositoryManager.getGoodsService().searchGoodsByKeyword(search);
+//        } else {
+//            searchResults = repositoryManager.getGoodsService().listApprovedGoods();
+//        }
+//
+//
+//        model.addAttribute("searchResults", searchResults);
+//        model.addAttribute("search", search);
+//
+//        return "TestNewDesign";
+//    }
+
     @GetMapping("/shop")
-    public String approvedGoods(Model model, @RequestParam(name = "search", required = false) String search) {
+    public String approvedGoods(Model model,
+                                @RequestParam(name = "search", required = false) String search,
+                                @RequestParam(name = "section", required = false) Long section) {
         List<Goods> searchResults;
 
-        if (search != null && !search.isEmpty()) {
-            searchResults = repositoryManager.getGoodsService().searchGoodsByKeyword(search);
+        if (section != null) {
+            // Отримайте товари за категорією
+            searchResults = repositoryManager.getGoodsService().getGoodsByCategoryId(section);
         } else {
-            searchResults = repositoryManager.getGoodsService().listApprovedGoods();
+            // Використовуйте логіку для пошуку або виведення всіх товарів
+            if (search != null && !search.isEmpty()) {
+                searchResults = repositoryManager.getGoodsService().searchGoodsByKeyword(search);
+            } else {
+                searchResults = repositoryManager.getGoodsService().listApprovedGoods();
+            }
         }
 
         model.addAttribute("searchResults", searchResults);
@@ -43,6 +68,7 @@ public class WebGoodsController {
 
         return "TestNewDesign";
     }
+
 
     @GetMapping("/shop/goods/{id}")
     public String goodsInfo(@PathVariable Long id, Model model){
@@ -53,39 +79,29 @@ public class WebGoodsController {
     }
 
 
-//    @PostMapping("/shop/goods/create")
-//    public String createGoods(@RequestParam("files") MultipartFile[] files, Goods goods) throws IOException {
-//        repositoryManager.getGoodsService().saveGoods(goods, files);
-//        return "redirect:/TestNewDesign";
-//    }
-
     @PostMapping("/shop/goods/create")
     public String createGoods(@RequestParam("files") MultipartFile[] files,
                               @RequestParam("productType") String productType,
+                              @RequestParam("categories") List<Long> categoryIds,
                               Goods goods) throws IOException {
 
         if ("personal".equals(productType)) {
             goods.setIsPersonal(true);
         } else if ("store".equals(productType)) {
-            User currentUser = repositoryManager.getUserService().getCurrentUser(); // Метод отримання поточного користувача
+            User currentUser = repositoryManager.getUserService().getCurrentUser();
             Store userStore = repositoryManager.getStoreService().getStoreByOwner(currentUser);
             goods.setIsPersonal(false);
             goods.setStore(userStore);
         }else {
-            // Обробка випадку, коли користувача не знайдено
-            // Це може виникнути, якщо користувач не аутентифікований
-            // або якщо метод getCurrentUser повертає null
-            // Обробте цю ситуацію відповідним чином, наприклад, перенаправленням на сторінку помилки
             return "redirect:/error";
         }
-
-
-        // Логіка збереження товару та його зображень
         repositoryManager.getGoodsService().saveGoods(goods, files);
+        for (Long categoryId : categoryIds) {
+            repositoryManager.getGoodsService().addCategoryToGoods(goods.getId(), categoryId);
+        }
 
         return "redirect:/shop";
     }
-
 
     @PostMapping("/shop/goods/delete/{id}")
     public String deleteGoods(@PathVariable Long id){

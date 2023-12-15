@@ -27,6 +27,8 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +38,7 @@ public class WebImageController {
     private RepositoryManager repositoryManager;
     @Autowired
     private final ResourceLoader resourceLoader;
+    private static final String IMAGE_FOLDER = "C:\\javastudy\\project\\ShopProject\\ua\\src\\main\\resources\\static\\user-images\\";
 
     @GetMapping("/images/{id}")
     public ResponseEntity<Resource> getImage(@PathVariable Long id) throws IOException {
@@ -49,6 +52,22 @@ public class WebImageController {
                     .body(resource);
         } else {
             // Обробка випадку, коли зображення не знайдено
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/user-images/{imageName}")
+    public ResponseEntity<Resource> serveImage(@PathVariable String imageName) {
+        Path imagePath = Paths.get(IMAGE_FOLDER, imageName);
+
+        try {
+            Resource resource = new org.springframework.core.io.PathResource(imagePath);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(resource);
+        } catch (Exception e) {
+            // Обробка помилок читання файлу або інших винятків
+            e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }

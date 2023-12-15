@@ -1,14 +1,17 @@
 package com.shop.ua.services;
 
 import com.shop.ua.component.RepositoryManager;
+import com.shop.ua.models.Category;
 import com.shop.ua.models.Goods;
 import com.shop.ua.models.Image;
+import com.shop.ua.repositories.CategoryRepository;
 import com.shop.ua.repositories.GoodsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +23,8 @@ import java.io.File;
 
 import org.apache.commons.io.FilenameUtils;
 
+
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -28,6 +33,9 @@ public class GoodsService{
     private RepositoryManager repositoryManager;
     private static final Logger logger = LoggerFactory.getLogger(GoodsService.class);
     private final GoodsRepository goodsRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public List<Goods> listGoods(String title){
         if (title != null) return goodsRepository.findByTitle(title);
@@ -128,4 +136,36 @@ public class GoodsService{
     public void rejectProduct(Long id) {
         goodsRepository.deleteById(id);
     }
+
+    public void addCategoryToGoods(Long goodsId, Long categoryId) {
+        Goods goods = goodsRepository.findById(goodsId)
+                .orElseThrow(() -> new RuntimeException("Товар не знайдено"));
+
+        if (!categoryRepository.existsById(categoryId)) {
+            throw new RuntimeException("Категорію не знайдено");
+        }
+
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Категорію не знайдено"));
+
+        goods.addCategory(category);
+        goodsRepository.save(goods);
+    }
+
+    public void removeCategoryFromGoods(Long goodsId, Long categoryId) {
+        Goods goods = goodsRepository.findById(goodsId).orElseThrow(() -> new RuntimeException("Товар не знайдено"));
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("Категорію не знайдено"));
+        goods.removeCategory(category);
+        goodsRepository.save(goods);
+    }
+
+    public List<Goods> getGoodsByCategoryId(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Категорію не знайдено"));
+
+        return new ArrayList<>(category.getGoods());
+    }
+
+
+
 }
