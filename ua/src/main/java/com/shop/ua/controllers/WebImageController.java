@@ -82,7 +82,7 @@ public class WebImageController {
 
         return ResponseEntity
                 .ok()
-                .contentType(MediaType.IMAGE_JPEG) // або MediaType.IMAGE_PNG, залежно від формату вашого зображення
+                .contentType(MediaType.IMAGE_JPEG)
                 .body(bytes);
     }
 

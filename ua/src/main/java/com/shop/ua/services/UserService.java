@@ -59,7 +59,7 @@ public class UserService implements UserDetailsService {
                 UserImage userImage = repositoryManager.getUserService().toImageEntity(userImageFile, imagePath);
                 user.addImageToUser(userImage);
             } catch (IOException e) {
-                e.printStackTrace(); // Додайте логіку обробки помилок, якщо потрібно
+                e.printStackTrace();
             }
         }
 
@@ -157,13 +157,6 @@ public class UserService implements UserDetailsService {
         return filePath;
     }
 
-//    public void saveUserImage(User user, MultipartFile file) throws IOException {
-//        if (file.getSize() != 0) {
-//            UserImage userImage = toImageEntity(file);
-//            user.addImageToUser(userImage);
-//            repositoryManager.getUserRepository().save(user);
-//        }
-//    }
 
     private UserImage toImageEntity(MultipartFile file, String filePath) throws IOException {
         UserImage image = new UserImage();

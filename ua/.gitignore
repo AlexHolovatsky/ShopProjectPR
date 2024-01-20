@@ -34,3 +34,6 @@ build/
 
 ### Images ###
 ua/src/main/resources/images/*
+
+### Config ###
+ua/src/main/resources/images/application.yaml

@@ -41,7 +41,7 @@ public class WebUserController {
     public String confirmEmail(@RequestParam("token") String token, Model model) {
         if (repositoryManager.getUserService().confirmEmail(token)) {
             model.addAttribute("message", "Ваша адреса електронної пошти була успішно підтверджена!");
-            return "redirect:/login"; // Перенаправлення на сторінку входу після успішного підтвердження
+            return "redirect:/login";
         } else {
             model.addAttribute("message", "Не вдалося підтвердити вашу адресу електронної пошти. Будь ласка, перевірте посилання або зверніться до служби підтримки.");
         }
@@ -58,10 +58,10 @@ public class WebUserController {
         String currentUsername = (authentication != null) ? authentication.getName() : null;
         User user = repositoryManager.getUserRepository().findByEmail(currentUsername);
 
-        // Передати дані користувача в модель для відображення на сторінці
+
         model.addAttribute("user", user);
 
-        // Поверніть назву Thymeleaf-шаблону
+
         return "userprofile";
     }
 
@@ -70,10 +70,10 @@ public class WebUserController {
         String currentUsername = (authentication != null) ? authentication.getName() : null;
         User user = repositoryManager.getUserRepository().findByEmail(currentUsername);
 
-        // Передати дані користувача в модель для відображення на сторінці
+
         model.addAttribute("user", user);
 
-        // Повернути назву HTML-сторінки (без розширення)
+
         return "user-profile";
     }
 

@@ -43,11 +43,11 @@ public class GoodsService{
     }
 
     public List<Goods> searchGoodsByKeyword(String keyword) {
-        // Додайте новий метод для пошуку за назвою та описом
+        // новий метод для пошуку за назвою та описом
         List<Goods> byTitle = goodsRepository.findByTitleContaining(keyword);
         List<Goods> byDescription = goodsRepository.findByDescriptionContaining(keyword);
 
-        // Об'єднайте результати двох запитів і поверніть унікальні товари
+        // результат двох запитів і унікальні товари
         Set<Goods> uniqueResults = new HashSet<>(byTitle);
         uniqueResults.addAll(byDescription);
 
@@ -104,7 +104,6 @@ public class GoodsService{
         image.setContentType(file.getContentType());
         image.setSize(file.getSize());
 
-        // Змініть цей код, щоб зберігати шлях у поле imagePath
         String fileName = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
         String filePath = "C:\\javastudy\\project\\ShopProject\\ua\\src\\main\\resources\\images\\" + fileName;
         file.transferTo(new File(filePath));

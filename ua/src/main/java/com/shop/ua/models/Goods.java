@@ -76,11 +76,10 @@ public class Goods {
             image.setGoods(this);
             images.add(image);
             if (images.size() == 1) {
-                // Встановлюємо першу додану фотографію як preview, якщо це перша фотографія
+                // Встановлення першу додану фотографію як preview, якщо це перша фотографія
                 this.previewImageId = image.getId();
             }
         } else {
-            // Можна додати обробник помилок або вивести повідомлення про перевищення ліміту фотографій
             throw new RuntimeException("Досягнуто максимальну кількість фотографій для товару");
         }
     }

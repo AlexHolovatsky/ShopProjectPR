@@ -52,10 +52,10 @@ public class WebGoodsController {
         List<Goods> searchResults;
 
         if (section != null) {
-            // Отримайте товари за категорією
+            // товари за категорією
             searchResults = repositoryManager.getGoodsService().getGoodsByCategoryId(section);
         } else {
-            // Використовуйте логіку для пошуку або виведення всіх товарів
+            //  логіка для пошуку або виведення всіх товарів
             if (search != null && !search.isEmpty()) {
                 searchResults = repositoryManager.getGoodsService().searchGoodsByKeyword(search);
             } else {

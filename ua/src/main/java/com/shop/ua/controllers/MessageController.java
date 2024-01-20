@@ -48,7 +48,7 @@ public class MessageController {
     @GetMapping("/TestNewDesign")
     public String getAllMessages(Model model) {
         List<Message> messages = messageService.getAllMessages();
-        System.out.println("Number of messages: " + messages.size()); // Додайте цей рядок
+        System.out.println("Number of messages: " + messages.size());
         model.addAttribute("messages", messages);
         return "TestNewDesign";
     }
