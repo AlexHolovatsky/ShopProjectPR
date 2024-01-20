@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/store.css}"/>
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/create-store}" method="post">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required>
+
+  <label for="company_full_name">Company Full Name:</label>
+  <input type="text" id="company_full_name" name="company_full_name" required>
+
+  <label for="main_office">Main Office:</label>
+  <input type="text" id="main_office" name="main_office" required>
+
+  <label for="customer_support">Customer Support:</label>
+  <input type="text" id="customer_support" name="customer_support" required>
+
+  <label for="legal_form">Legal Form:</label>
+  <input type="text" id="legal_form" name="legal_form" required>
+
+  <label for="legal_entity_code">Legal Entity Code:</label>
+  <input type="number" id="legal_entity_code" name="legal_entity_code" required>
+
+  <label for="location">Location:</label>
+  <input type="text" id="location" name="location" required>
+
+  <label for="authorised_persons">Authorised Persons:</label>
+  <input type="text" id="authorised_persons" name="authorised_persons" required>
+
+  <label for="is_registered">Is Registered:</label>
+  <input type="text" id="is_registered" name="is_registered" required>
+
+  <button type="submit">Create Store</button>
+</form>
+</body>
+</html>

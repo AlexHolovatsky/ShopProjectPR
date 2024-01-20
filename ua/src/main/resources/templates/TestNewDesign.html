@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/NewDesign.css}"/>
+    <link rel="stylesheet" th:href="@{/css/newHeader.css}"/>
+</head>
+<body>
+<header>
+    <a href="/shop">
+    <img id="logo" src="https://i.ibb.co/CQDMyYV/Shop-App.png" alt="Your Logo">
+    </a>
+    <div id="profile-info">
+        <a href="#">
+            <span id="set-lang-eng">eng</span>
+        </a>
+        <a href="#">
+            <img id="line-photo" src="https://i.ibb.co/wMcyPBH/line.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <span id="set-lang-ukr">ukr</span>
+        </a>
+        <a href="#">
+            <img id="message-photo" src="https://i.ibb.co/7rDQPqV/message.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <div class="profile-dropdown" id="profileDropdownMessage" onmouseleave="hideprofileDropdown()">
+                <a href="javascript:void(0);" class="profile-link" onmouseover="showprofileDropdownMessage()"><span id="message-page">Повідомлення</span></span>
+                </a>
+                <div class="dropdown-content" id="MessageMenu" onmouseleave="hideOnMouseLeave()">
+                    <button class="check-status-button" onclick="openStatusBlock()">Написати повідомлення</button>
+                    <button class="check-status-button" onclick="openMessageBlock()">Вхідні</button>
+                </div>
+            </div>
+            <div class="overlay" id="overlay"></div>
+            <div class="status-popup" id="status-popup">
+                <form action="/send-message" method="post">
+                    <label for="recipientEmail">Email:</label>
+                    <input type="email" id="recipientEmail" name="recipientEmail" required>
+
+                    <label for="messageTitle">Заголовок:</label>
+                    <input type="text" id="messageTitle" name="messageTitle" required>
+
+                    <label for="messageContent">Повідомлення:</label>
+                    <textarea id="messageContent" name="messageContent" required></textarea>
+
+                    <button type="submit">Відправити</button>
+                    <button type="button" onclick="closeStatusBlock()">Скасувати</button>
+                </form>
+            </div>
+            <div class="overlay" id="overlay2"></div>
+            <div class="status-popup" id="status-popup2">
+                <tr th:each="message : ${receivedMessages}">
+                    <td th:text="${message.title}"></td>
+                    <td th:text="${message.sender.fullName}"></td>
+                    <td th:text="${message.sentAt}"></td>
+                    <td th:text="${message.content}"></td>
+                </tr>
+                <button type="button" onclick="closeMessageBlock()">Скасувати</button>
+            </div>
+        </a>
+        <a href="#">
+            <img id="like-photo" src="https://i.ibb.co/7t552jr/like.png" alt="Profile Photo">
+        </a>
+        <a href="#">
+            <span id="like-page">Обране</span>
+        </a>
+        <a href="profile.html">
+            <img id="profile-photo" src="https://i.ibb.co/jyXc9hm/profile.png" alt="Profile Photo">
+        </a>
+            <div class="profile-dropdown" id="profileDropdown" onmouseleave="hideOnMouseLeave()">
+            <a href="javascript:void(0);" class="profile-link" onmouseover="showProfileMenu()"><span id="profile-name">Ваш профіль</span>
+            </a>
+                <div class="dropdown-content" id="profileMenu" onmouseleave="hideOnMouseLeave()">
+                    <a href="/userProfile" th:if="${isAuthenticated}" th:text="${user.fullName}"></a>
+                    <a href="/cart" th:if="${isAuthenticated}" th:text="Кошик"></a>
+                    <a href="#">Повідомлення</a>
+                    <a href="/create-store">Створити магазин</a>
+                    <a href="/admin">Панель адміністрації</a>
+                    <a th:if="${isAuthenticated}" th:href="@{/logout}" onclick="logout(event)" th:text="Вихід"></a>
+                    <a href="/login" th:unless="${isAuthenticated}" th:text="Вхід"></a>
+                </div>
+            </div>
+    </div>
+    <button id="add-ad-button"><a href="/shop/addgood">Додати оголошення</a></button>
+</header>
+<div class="search-block">
+    <div id="search-bar">
+        <form action="/shop" method="get">
+            <input type="text" id="search-input" name="search" placeholder="Пошук..." th:value="${search}">
+            <button id="search-button" type="submit">Пошук</button>
+        </form>
+    </div>
+</div>
+<div id="sections">
+    <h2>Розділи</h2>
+    <div class="sections-container">
+        <a th:href="@{/shop?section=1}" class="section">
+            <img src="https://categories.olxcdn.com/assets/categories/olxua/elektronika-37-1x.png" alt="Section 1">
+            <p>Електроніка</p>
+        </a>
+        <a th:href="@{/shop?section=2}" class="section">
+            <img src="https://categories.olxcdn.com/assets/categories/olxua/hobbi-otdyh-i-sport-903-1x.png" alt="Section 2">
+            <p>Спорт та розваги</p>
+        </a>
+        <a th:href="@{/shop?section=3}" class="section">
+            <img src="https://categories.olxcdn.com/assets/categories/olxua/zhivotnye-35-1x.png" alt="Section 1">
+            <p>Домашні улюбленці</p>
+        </a>
+        <a th:href="@{/shop?section=4}" class="section">
+            <img src="https://categories.olxcdn.com/assets/categories/olxua/moda-i-stil-891-1x.png" alt="Section 2">
+            <p>Стиль та мода</p>
+        </a>
+        <a th:href="@{/shop?section=5}" class="section">
+            <img src="https://categories.olxcdn.com/assets/categories/olxua/nedvizhimost-1-1x.png" alt="Section 1">
+            <p>Нерухомість</p>
+        </a>
+        <a th:href="@{/shop?section=6}" class="section">
+            <img src="https://categories.olxcdn.com/assets/categories/olxua/transport-1532-1x.png" alt="Section 2">
+            <p>Транспорт</p>
+        </a>
+        <a th:href="@{/shop?section=7}" class="section">
+            <img src="https://categories.olxcdn.com/assets/categories/olxua/dom-i-sad-899-1x.png" alt="Section 1">
+            <p>Меблі</p>
+        </a>
+    </div>
+</div>
+
+
+<div id="ads-background">
+    <div id="ads">
+        <div th:each="product : ${searchResults}" class="advertisement">
+            <a th:href="@{/shop/product/__${product.id}__}">
+                <img th:src="@{'/images/' + ${product.previewImageId}}" alt="Product Image">
+                <div class="advertisement-content">
+                    <h3 th:text="${product.title}">Товар</h3>
+                    <p th:text="'Ціна: $' + ${product.price}"></p>
+                    <p th:text="'Дата розміщення: ' + ${product.dateOfCreate}"></p>
+                    <p th:text="${product.description}"></p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function showProfileMenu() {
+        document.getElementById("profileMenu").style.display = "block";
+    }
+
+    function showprofileDropdownMessage() {
+        document.getElementById("MessageMenu").style.display = "block";
+    }
+
+    function hideprofileDropdown() {
+        document.getElementById("MessageMenu").style.display = "none";
+    }
+    function hideOnMouseLeave() {
+        document.getElementById("profileMenu").style.display = "none";
+    }
+
+    function openStatusBlock() {
+        document.getElementById("overlay").style.display = "block";
+        document.getElementById("status-popup").style.display = "block";
+    }
+
+    function closeStatusBlock() {
+        document.getElementById("overlay").style.display = "none";
+        document.getElementById("status-popup").style.display = "none";
+    }
+
+    function openMessageBlock() {
+        document.getElementById("overlay2").style.display = "block";
+        document.getElementById("status-popup2").style.display = "block";
+    }
+
+    function closeMessageBlock() {
+        document.getElementById("overlay2").style.display = "none";
+        document.getElementById("status-popup2").style.display = "none";
+    }
+
+</script>
+
+</html>
